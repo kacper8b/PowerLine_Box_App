@@ -53,6 +53,8 @@ def reset_controller_state(monkeypatch):
     monkeypatch.setattr(controller.power_line, "is_connected", lambda: True)
     monkeypatch.setattr(controller.power_line, "send", lambda data: data)
     monkeypatch.setattr(controller.terminal_main, "add_text", lambda *a, **k: None)
+    # avoid reading the real user's Documents\PowerLine Box\config.json
+    monkeypatch.setattr(controller.config, "get_init_delay", lambda: 1000)
 
     button_configs = []
     monkeypatch.setattr(controller.gui, "config_button", lambda button_id, **kwargs: button_configs.append((button_id, kwargs)))

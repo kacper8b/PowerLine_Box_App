@@ -13,11 +13,13 @@ logger = logging.getLogger(__name__)
 # USED interfaces:
 id_button = {
     'connect': "connect",
+    'save_init_delay': "save_init_delay",
 }
 
 id_entry = {
     'COM': "PowerLine_COM",
     'baud rate': "PowerLine_baud",
+    'init_delay': "PowerLine_init_delay",
 }
 
 
@@ -61,6 +63,19 @@ class WindowSettings(tk.Frame):
                           bg=theme.DARK_RED, fg=theme.WHITE, active_background=theme.DARK_RED, active_foreground=theme.WHITE,
                           action=lambda: self.connect())
 
+        # INIT command delay
+        gui.create_label(self.frame, label_id="PL_init_delay",
+                         text="INIT delay:", x=20, y=125)
+        gui.create_label(self.frame, label_id="PL_init_delay_info",
+                         text="range: ({0}-{1} ms)".format(config.INIT_DELAY_MIN, config.INIT_DELAY_MAX),
+                         x=320, y=125)
+        gui.create_entry(self.frame, entry_id=id_entry['init_delay'], text=str(config.get_init_delay()),
+                         height=25, width=100, x=90, y=135)
+        gui.create_button(self.frame, text="Save", button_id=id_button['save_init_delay'],
+                          width=100, height=25, x=260, y=135,
+                          bg=theme.DARK_RED, fg=theme.WHITE, active_background=theme.DARK_RED, active_foreground=theme.WHITE,
+                          action=lambda: self.save_init_delay())
+
     def connect(self):
         """connect
         ----------------------------------------------------------------------------------------------------------------
@@ -89,3 +104,38 @@ class WindowSettings(tk.Frame):
             if state:
                 gui.config_button(button_id=id_button['connect'], text="connect",
                                   bg=theme.DARK_RED, active_background=theme.DARK_RED)
+
+    def save_init_delay(self):
+        """save_init_delay
+        ----------------------------------------------------------------------------------------------------------------
+        """
+        raw_value = gui.get_entry(id_entry['init_delay']).get()
+        try:
+            value = int(raw_value)
+        except ValueError:
+            logger.error("Invalid INIT delay value: %s", raw_value)
+            gui.config_button(button_id=id_button['save_init_delay'], text="Invalid",
+                              bg=theme.DARK_RED, active_background=theme.DARK_RED)
+            return
+
+        if not (config.INIT_DELAY_MIN <= value <= config.INIT_DELAY_MAX):
+            logger.error("INIT delay %s out of allowed range %s-%s", value, config.INIT_DELAY_MIN, config.INIT_DELAY_MAX)
+            gui.config_button(button_id=id_button['save_init_delay'], text="Invalid",
+                              bg=theme.DARK_RED, active_background=theme.DARK_RED)
+            return
+
+        try:
+            with open(config.directory_config, 'r', encoding='utf-8') as json_data:
+                config_data = json.load(json_data)
+        except (OSError, ValueError) as error:
+            logger.error("Could not read %s: %s", config.directory_config, error)
+            config_data = {}
+
+        config_data['init delay'] = value
+
+        with open(config.directory_config, 'w', encoding='utf-8') as json_data:
+            json.dump(config_data, json_data, ensure_ascii=False, indent=4)
+
+        logger.info("Saved INIT delay: %s", value)
+        gui.config_button(button_id=id_button['save_init_delay'], text="Saved",
+                          bg=theme.GREEN, active_background=theme.GREEN)

@@ -1,3 +1,4 @@
 {
-  "power line port": "COM4"
+  "power line port": "COM4",
+  "init delay": 1000
 }

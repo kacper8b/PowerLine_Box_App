@@ -1,4 +1,5 @@
 
+import json
 import logging
 import os
 import sys
@@ -7,6 +8,10 @@ from shutil import copyfile
 from powerline_box import theme
 
 logger = logging.getLogger(__name__)
+
+INIT_DELAY_DEFAULT = 1000
+INIT_DELAY_MIN = 500
+INIT_DELAY_MAX = 1200
 
 windows = dict(
     width=1000,
@@ -143,3 +148,17 @@ def configuration_init():
                 logger.error("Copy of the file %s failed: %s", os.path.join(_CONFIG_TEMPLATES_DIR, file), error)
             else:
                 logger.info("Successfully copy of the file %s", os.path.join(_CONFIG_TEMPLATES_DIR, file))
+
+
+def get_init_delay():
+    """Read the configured INIT command delay (ms) from the user's config.json,
+    falling back to INIT_DELAY_DEFAULT if the file/key is missing or invalid.
+    --------------------------------------------------------------------------------------------------------------------
+    """
+    try:
+        with open(directory_config, encoding='utf-8') as json_data:
+            data = json.load(json_data)
+        return int(data.get('init delay', INIT_DELAY_DEFAULT))
+    except (OSError, ValueError, TypeError) as error:
+        logger.error("Could not read init delay from %s: %s", directory_config, error)
+        return INIT_DELAY_DEFAULT

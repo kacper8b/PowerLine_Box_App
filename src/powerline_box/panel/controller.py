@@ -2,6 +2,7 @@
 from threading import Timer
 import logging
 
+from powerline_box import config
 from powerline_box import gui
 from powerline_box import terminal_log as terminal_main
 from powerline_box import theme
@@ -82,7 +83,7 @@ def events():
         command_send("safepwr 1", new_event=events_list['init_3'])
     elif _controller.event == events_list['init_3']:
         _controller.event = None
-        command_send("init 1000")
+        command_send("init {0}".format(config.get_init_delay()))
         gui.config_button(button_id=_controller.current_button['id'], text="INIT", bg=theme.GREEN, active_background=theme.GREEN)
 
     elif _controller.event == events_list['dpc_0']:
