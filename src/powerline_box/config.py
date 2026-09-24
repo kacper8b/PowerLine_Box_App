@@ -3,16 +3,18 @@ import os
 import sys
 from shutil import copyfile
 
+from powerline_box import theme
+
 windows = dict(
     width=1000,
     height=800,
     sidemenu_width=130,
-    sidemenu_color="#D8DDE3",
-    mainwindow_color="#D8DDE3",
+    sidemenu_color=theme.LIGHT_GRAY,
+    mainwindow_color=theme.LIGHT_GRAY,
     main_height=600,
-    main_color="#FFFFFF",
+    main_color=theme.WHITE,
     terminal_height=200,
-    termnial_color="#FFFFFF",
+    termnial_color=theme.WHITE,
 )
 
 panel_buttons = dict(

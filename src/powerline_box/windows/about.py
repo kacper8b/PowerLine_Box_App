@@ -2,6 +2,7 @@ import tkinter as tk
 
 from powerline_box import config
 from powerline_box import gui
+from powerline_box import theme
 
 # USED interfaces:
 id_text = {
@@ -42,7 +43,7 @@ class WindowAbout(tk.Frame):
         gui.create_text(text_id=id_text['log'], frame=self.frame,
                         height=config.change_log['height'], width=config.change_log['width'],
                         x=config.change_log['x'], y=config.change_log['y'],
-                        readonly=True, background="#D8DDE3")
+                        readonly=True, background=theme.LIGHT_GRAY)
 
         # should be improved (separate file)
 

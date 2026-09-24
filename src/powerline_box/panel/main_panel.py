@@ -1,5 +1,6 @@
 from powerline_box import config
 from powerline_box import gui
+from powerline_box import theme
 from powerline_box.panel import controller as panel
 
 # USED interfaces:
@@ -44,40 +45,40 @@ def create(frame):
                       width=buttons_width, height=buttons_height,
                       x=buttons_initial_position_x + 2*(buttons_width + buttons_distance_x),
                       y=buttons_initial_position_y + 0*(buttons_height + buttons_distance_y),
-                      bg="#0C6046", fg="#ffffff",
-                      active_background="#0C6046", active_foreground="#ffffff",
+                      bg=theme.GREEN, fg=theme.WHITE,
+                      active_background=theme.GREEN, active_foreground=theme.WHITE,
                       action=lambda: send())
 
     gui.create_button(frame, text="INIT", button_id=id_button['init'],
                       width=buttons_width, height=buttons_height,
                       x=buttons_initial_position_x + 0*(buttons_width + buttons_distance_x),
                       y=buttons_initial_position_y + 1*(buttons_height + buttons_distance_y),
-                      bg="#0C6046", fg="#ffffff",
-                      active_background="#0C6046", active_foreground="#ffffff",
+                      bg=theme.GREEN, fg=theme.WHITE,
+                      active_background=theme.GREEN, active_foreground=theme.WHITE,
                       action=lambda bt_id=id_button['init']: panel.init(bt_id))
 
     gui.create_button(frame, text="ON", button_id=id_button['on'],
                       width=buttons_width, height=buttons_height,
                       x=buttons_initial_position_x + 1*(buttons_width + buttons_distance_x),
                       y=buttons_initial_position_y + 1*(buttons_height + buttons_distance_y),
-                      bg="#0C6046", fg="#ffffff",
-                      active_background="#0C6046", active_foreground="#ffffff",
+                      bg=theme.GREEN, fg=theme.WHITE,
+                      active_background=theme.GREEN, active_foreground=theme.WHITE,
                       action=lambda: panel.on())
 
     gui.create_button(frame, text="OFF", button_id=id_button['off'],
                       width=buttons_width, height=buttons_height,
                       x=buttons_initial_position_x + 2*(buttons_width + buttons_distance_x),
                       y=buttons_initial_position_y + 1*(buttons_height + buttons_distance_y),
-                      bg="#0C6046", fg="#ffffff",
-                      active_background="#0C6046", active_foreground="#ffffff",
+                      bg=theme.GREEN, fg=theme.WHITE,
+                      active_background=theme.GREEN, active_foreground=theme.WHITE,
                       action=lambda: panel.off())
 
     gui.create_button(frame, text="DPC", button_id=id_button['dpc'],
                       width=buttons_width, height=buttons_height,
                       x=buttons_initial_position_x + 0*(buttons_width + buttons_distance_x),
                       y=buttons_initial_position_y + 2*(buttons_height + buttons_distance_y),
-                      bg="#0C6046", fg="#ffffff",
-                      active_background="#0C6046", active_foreground="#ffffff",
+                      bg=theme.GREEN, fg=theme.WHITE,
+                      active_background=theme.GREEN, active_foreground=theme.WHITE,
                       action=lambda bt_id=id_button['dpc']: panel.dpc(bt_id))
 
     # Create buttons for edit
@@ -93,24 +94,24 @@ def create(frame):
                       x=buttons_initial_position_x + 0*(buttons_width + buttons_distance_x),
                       y=buttons_initial_position_y + 0*(buttons_height + buttons_distance_y),
                       action=lambda: panel.edit(),
-                      bg="#000000", fg="#ffffff",
-                      active_background="#000000", active_foreground="#ffffff")
+                      bg=theme.BLACK, fg=theme.WHITE,
+                      active_background=theme.BLACK, active_foreground=theme.WHITE)
 
     gui.create_button(frame, text="Save", button_id=id_button['save'],
                       width=buttons_width, height=buttons_height,
                       x=buttons_initial_position_x + 0*(buttons_width + buttons_distance_x),
                       y=buttons_initial_position_y + 1*(buttons_height + buttons_distance_y),
                       action=lambda: panel.save(),
-                      bg="#000000", fg="#ffffff",
-                      active_background="#000000", active_foreground="#ffffff")
+                      bg=theme.BLACK, fg=theme.WHITE,
+                      active_background=theme.BLACK, active_foreground=theme.WHITE)
 
     gui.create_button(frame, text="Cancel", button_id=id_button['cancel'],
                       width=buttons_width, height=buttons_height,
                       x=buttons_initial_position_x + 0*(buttons_width + buttons_distance_x),
                       y=buttons_initial_position_y + 2*(buttons_height + buttons_distance_y),
                       action=lambda: panel.cancel(),
-                      bg="#000000", fg="#ffffff",
-                      active_background="#000000", active_foreground="#ffffff")
+                      bg=theme.BLACK, fg=theme.WHITE,
+                      active_background=theme.BLACK, active_foreground=theme.WHITE)
 
     hide_buttons()
 

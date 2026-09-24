@@ -3,6 +3,7 @@ from threading import Timer
 
 from powerline_box import gui
 from powerline_box import terminal_log as terminal_main
+from powerline_box import theme
 from powerline_box.panel import buttons as panel_buttons
 from powerline_box.panel import edit as panel_edit
 from powerline_box.panel import main_panel as panel_main
@@ -37,8 +38,8 @@ class PanelController:
     """Holds the panel's runtime state (was a set of module-level globals)."""
 
     def __init__(self):
-        self.current_button = {'id': None, 'bg': '#000000', 'fg': '#000000'}
-        self.previous_button = {'id': None, 'bg': '#000000', 'fg': '#000000'}
+        self.current_button = {'id': None, 'bg': theme.BLACK, 'fg': theme.BLACK}
+        self.previous_button = {'id': None, 'bg': theme.BLACK, 'fg': theme.BLACK}
         self.double_command = None
         self.double_command_comment = None
         self.state = panel_state['normal']
@@ -69,7 +70,7 @@ def events():
     elif _controller.event == events_list['init_0']:
         _controller.event = None
         if command_send("safepwr 0", new_event=events_list['init_1']):
-            gui.config_button(button_id=_controller.current_button['id'], text="INIT in progress", bg="#660D0D", active_background="#660D0D")
+            gui.config_button(button_id=_controller.current_button['id'], text="INIT in progress", bg=theme.DARK_RED, active_background=theme.DARK_RED)
     elif _controller.event == events_list['init_1']:
         _controller.event = None
         command_send("pwr 0", new_event=events_list['init_2'], delay=2)
@@ -79,12 +80,12 @@ def events():
     elif _controller.event == events_list['init_3']:
         _controller.event = None
         command_send("init 1000")
-        gui.config_button(button_id=_controller.current_button['id'], text="INIT", bg="#0C6046", active_background="#0C6046")
+        gui.config_button(button_id=_controller.current_button['id'], text="INIT", bg=theme.GREEN, active_background=theme.GREEN)
 
     elif _controller.event == events_list['dpc_0']:
         _controller.event = None
         if command_send("pwr 0", new_event=events_list['dpc_1'], delay=2):
-            gui.config_button(button_id=_controller.current_button['id'], text="DPC in progress", bg="#660D0D", active_background="#660D0D")
+            gui.config_button(button_id=_controller.current_button['id'], text="DPC in progress", bg=theme.DARK_RED, active_background=theme.DARK_RED)
     elif _controller.event == events_list['dpc_1']:
         _controller.event = None
         command_send("safepwr 1", new_event=events_list['dpc_2'], delay=0.5)
@@ -103,7 +104,7 @@ def events():
     elif _controller.event == events_list['dpc_6']:
         _controller.event = None
         command_send("pwr 1")
-        gui.config_button(button_id=_controller.current_button['id'], text="DPC", bg="#0C6046", active_background="#0C6046")
+        gui.config_button(button_id=_controller.current_button['id'], text="DPC", bg=theme.GREEN, active_background=theme.GREEN)
 
 
 def create_event(new_event, time):
@@ -264,7 +265,7 @@ def init(button_id):
             _controller.current_button['id'] = button_id
     else:
         _controller.current_button['id'] = None
-        gui.config_button(button_id=button_id, text="INIT", bg="#0C6046", active_background="#0C6046")
+        gui.config_button(button_id=button_id, text="INIT", bg=theme.GREEN, active_background=theme.GREEN)
         stop_event()
 
 
@@ -295,7 +296,7 @@ def dpc(button_id):
             _controller.current_button['id'] = button_id
     else:
         _controller.current_button['id'] = None
-        gui.config_button(button_id=button_id, text="DPC", bg="#0C6046", active_background="#0C6046")
+        gui.config_button(button_id=button_id, text="DPC", bg=theme.GREEN, active_background=theme.GREEN)
         stop_event()
 
 

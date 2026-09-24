@@ -2,6 +2,7 @@ import json
 
 from powerline_box import config
 from powerline_box import gui
+from powerline_box import theme
 from powerline_box.panel import controller as panel
 
 # USED interfaces:
@@ -10,6 +11,22 @@ id_button = {
 }
 
 buttons_copy = None
+
+
+def _read_panel_json():
+    """Read config/panel_buttons.json (the user's copy in Documents/PowerLine Box).
+    ----------------------------------------------------------------------------------------------------------------
+    """
+    with open(config.directory_panel, encoding='utf-8') as json_data:
+        return json.load(json_data)
+
+
+def _write_panel_json(buttons_json):
+    """Write config/panel_buttons.json.
+    ----------------------------------------------------------------------------------------------------------------
+    """
+    with open(config.directory_panel, 'w', encoding='utf-8') as json_data:
+        json.dump(buttons_json, json_data, ensure_ascii=False, indent=4)
 
 
 def create_buttons(frame):
@@ -34,8 +51,8 @@ def create_buttons(frame):
                               width=buttons_width, height=buttons_height,
                               x=buttons_initial_position_x+x*(buttons_width + buttons_distance_x),
                               y=buttons_initial_position_y+y*(buttons_height + buttons_distance_y),
-                              bg="#660D0D", fg="#ffffff",
-                              active_background="#660D0D", active_foreground="#ffffff",
+                              bg=theme.DARK_RED, fg=theme.WHITE,
+                              active_background=theme.DARK_RED, active_foreground=theme.WHITE,
                               action=lambda b_id=button_id: panel.panel_button_pressed(b_id, ""))
 
 
@@ -80,47 +97,43 @@ def config_buttons():
     button_id = None
 
     # read config file
-    with open(config.directory_panel, encoding='utf-8') as json_data:
-        buttons_json = json.load(json_data)
-        json_data.close()
+    buttons_json = _read_panel_json()
 
-        # clear all buttons
+    # clear all buttons
+    idx = 0
+    for y in range(buttons_rows):
+        for x in range(buttons_columns):
+            idx += 1
+            button_id = "{0}{1}".format(id_button['button'], idx)
+            gui.config_button(button_id=button_id, text="",
+                              action=lambda b_id=button_id: panel.panel_button_pressed(b_id, ""))
+
+    # config button
+    for button in buttons_json:
+        name = button['name']
+        command = button['command']
+        column = button['x']
+        row = button['y']
+        bg = button['bg']
+        fg = button['fg']
+
         idx = 0
         for y in range(buttons_rows):
             for x in range(buttons_columns):
                 idx += 1
                 button_id = "{0}{1}".format(id_button['button'], idx)
-                gui.config_button(button_id=button_id, text="",
-                                  action=lambda b_id=button_id: panel.panel_button_pressed(b_id, ""))
 
-        # config button
-        for button in buttons_json:
-            name = button['name']
-            command = button['command']
-            column = button['x']
-            row = button['y']
-            bg = button['bg']
-            fg = button['fg']
-
-            idx = 0
-            for y in range(buttons_rows):
-                for x in range(buttons_columns):
-                    idx += 1
-                    button_id = "{0}{1}".format(id_button['button'], idx)
-
-                    if x == column and y == row:
-                        gui.config_button(button_id=button_id, text=name,
-                                          action=lambda b_id=button_id,
-                                          cmd=command: panel.panel_button_pressed(b_id, cmd),
-                                          bg=bg, fg=fg, active_background=bg, active_foreground=fg)
-                        # assign new id
-                        button['id'] = button_id
-                        break
+                if x == column and y == row:
+                    gui.config_button(button_id=button_id, text=name,
+                                      action=lambda b_id=button_id,
+                                      cmd=command: panel.panel_button_pressed(b_id, cmd),
+                                      bg=bg, fg=fg, active_background=bg, active_foreground=fg)
+                    # assign new id
+                    button['id'] = button_id
+                    break
 
     # write config file
-    with open(config.directory_panel, 'w', encoding='utf-8') as json_data:
-        json.dump(buttons_json, json_data, ensure_ascii=False, indent=4)
-        json_data.close()
+    _write_panel_json(buttons_json)
 
 
 def edit_button(button_id, new_command, new_text, new_bg, new_fg):
@@ -130,9 +143,7 @@ def edit_button(button_id, new_command, new_text, new_bg, new_fg):
     new_button = True
 
     # read config file
-    with open(config.directory_panel, 'r', encoding='utf-8') as json_data:
-        buttons_json = json.load(json_data)
-        json_data.close()
+    buttons_json = _read_panel_json()
 
     # edit button
     for button_json in buttons_json:
@@ -167,9 +178,7 @@ def edit_button(button_id, new_command, new_text, new_bg, new_fg):
                     buttons_json.append(button)
 
     # write config file
-    with open(config.directory_panel, 'w', encoding='utf-8') as json_data:
-        json.dump(buttons_json, json_data, ensure_ascii=False, indent=4)
-        json_data.close()
+    _write_panel_json(buttons_json)
 
     # refresh buttons
     config_buttons()
@@ -180,9 +189,7 @@ def delete_button(button_id):
     ----------------------------------------------------------------------------------------------------------------
     """
     # read config file
-    with open(config.directory_panel, 'r', encoding='utf-8') as json_data:
-        buttons_json = json.load(json_data)
-        json_data.close()
+    buttons_json = _read_panel_json()
 
     idx = 0
     for button_json in buttons_json:
@@ -192,9 +199,7 @@ def delete_button(button_id):
         idx = idx + 1
 
     # write config file
-    with open(config.directory_panel, 'w', encoding='utf-8') as json_data:
-        json.dump(buttons_json, json_data, ensure_ascii=False, indent=4)
-        json_data.close()
+    _write_panel_json(buttons_json)
 
     # refresh buttons
     config_buttons()
@@ -205,11 +210,7 @@ def copy_buttons():
     ----------------------------------------------------------------------------------------------------------------
     """
     global buttons_copy
-
-    # read config file
-    with open(config.directory_panel, 'r', encoding='utf-8') as json_data:
-        buttons_copy = json.load(json_data)
-        json_data.close()
+    buttons_copy = _read_panel_json()
 
 
 def restore_buttons():
@@ -217,10 +218,7 @@ def restore_buttons():
     ----------------------------------------------------------------------------------------------------------------
     """
     if buttons_copy is not None:
-        # write config file
-        with open(config.directory_panel, 'w', encoding='utf-8') as json_data:
-            json.dump(buttons_copy, json_data, ensure_ascii=False, indent=4)
-            json_data.close()
+        _write_panel_json(buttons_copy)
 
         # refresh buttons
         config_buttons()

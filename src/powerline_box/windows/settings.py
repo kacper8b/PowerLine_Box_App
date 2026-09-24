@@ -3,6 +3,7 @@ import tkinter as tk
 
 from powerline_box import config
 from powerline_box import gui
+from powerline_box import theme
 from powerline_box.uart import power_line
 
 
@@ -54,7 +55,7 @@ class WindowSettings(tk.Frame):
 
         gui.create_button(self.frame, text="Connect", button_id=id_button['connect'],
                           width=100, height=25, x=260, y=45,
-                          bg="#660D0D", fg="#ffffff", active_background="#660D0D", active_foreground="#ffffff",
+                          bg=theme.DARK_RED, fg=theme.WHITE, active_background=theme.DARK_RED, active_foreground=theme.WHITE,
                           action=lambda: self.connect())
 
     def connect(self):
@@ -66,24 +67,22 @@ class WindowSettings(tk.Frame):
             state = power_line.connect(port=self.port_new)
             if state:
                 gui.config_button(button_id=id_button['connect'], text="connected",
-                                  bg="#0C6046", active_background="#0C6046")
+                                  bg=theme.GREEN, active_background=theme.GREEN)
 
                 # change default PORT in case of changes
                 if self.port_old != self.port_new:
                     # read user PORT
                     with open(config.directory_config, 'r', encoding='utf-8') as json_data:
                         config_data = json.load(json_data)
-                        json_data.close()
 
                     config_data['power line port'] = self.port_new
 
                     # write user PORT
                     with open(config.directory_config, 'w', encoding='utf-8') as json_data:
                         json.dump(config_data, json_data, ensure_ascii=False, indent=4)
-                        json_data.close()
 
         else:
             state = power_line.disconnect()
             if state:
                 gui.config_button(button_id=id_button['connect'], text="connect",
-                                  bg="#660D0D", active_background="#660D0D")
+                                  bg=theme.DARK_RED, active_background=theme.DARK_RED)

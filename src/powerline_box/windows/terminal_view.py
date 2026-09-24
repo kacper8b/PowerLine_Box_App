@@ -2,6 +2,7 @@ import tkinter as tk
 
 from powerline_box import config
 from powerline_box import gui
+from powerline_box import theme
 from powerline_box import terminal_log as terminal
 
 # USED interfaces:
@@ -31,5 +32,5 @@ class WindowTerminal(tk.Frame):
         gui.create_button(frame=self.frame, text="clear", button_id=id_button['clear'],
                           width=config.terminal['button_width'], height=config.terminal['button_height'],
                           x=config.terminal['button_x'], y=config.terminal['button_y'],
-                          bg="#000000", fg="#ffffff", active_background="#000000", active_foreground="#ffffff",
+                          bg=theme.BLACK, fg=theme.WHITE, active_background=theme.BLACK, active_foreground=theme.WHITE,
                           action=lambda: terminal.clear())

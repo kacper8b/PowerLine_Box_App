@@ -2,6 +2,7 @@ import tkinter as tk
 
 from powerline_box import config
 from powerline_box import gui
+from powerline_box import theme
 
 # USED interfaces:
 id_button = {
@@ -29,17 +30,17 @@ class WindowSidebar(tk.Frame):
         # create buttons
         gui.create_button(self.frame, button_id=id_button['home'], height=35, width=100, text="Home",
                           relx=0.5, y=30, action=lambda: controller.show_frame("WindowHome"),
-                          bg="#1C6A8E", fg="#ffffff",
-                          active_background="#1C6A8E", active_foreground="#ffffff")
+                          bg=theme.BLUE, fg=theme.WHITE,
+                          active_background=theme.BLUE, active_foreground=theme.WHITE)
         gui.create_button(self.frame, button_id=id_button['panel'], height=35, width=100, text="Control Panel",
                           relx=0.5, y=70, action=lambda: controller.show_frame("WindowPanel"),
-                          bg="#1C6A8E", fg="#ffffff",
-                          active_background="#1C6A8E", active_foreground="#ffffff")
+                          bg=theme.BLUE, fg=theme.WHITE,
+                          active_background=theme.BLUE, active_foreground=theme.WHITE)
         gui.create_button(self.frame, button_id=id_button['setting'], height=35, width=100, text="Settings",
                           relx=0.5, y=110, action=lambda: controller.show_frame("WindowSettings"),
-                          bg="#1C6A8E", fg="#ffffff",
-                          active_background="#1C6A8E", active_foreground="#ffffff")
+                          bg=theme.BLUE, fg=theme.WHITE,
+                          active_background=theme.BLUE, active_foreground=theme.WHITE)
         gui.create_button(self.frame, button_id=id_button['about'], height=35, width=100, text="About",
                           relx=0.5, y=150, action=lambda: controller.show_frame("WindowAbout"),
-                          bg="#1C6A8E", fg="#ffffff",
-                          active_background="#1C6A8E", active_foreground="#ffffff")
+                          bg=theme.BLUE, fg=theme.WHITE,
+                          active_background=theme.BLUE, active_foreground=theme.WHITE)
