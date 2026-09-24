@@ -58,55 +58,55 @@ def events():
     global event
     global double_command, double_command_comment
 
-    if event is events_list['power_on_0']:
+    if event == events_list['power_on_0']:
         event = None
         command_send("pwr 1", new_event=events_list['power_on_1'], delay=1)
-    elif event is events_list['power_on_1']:
+    elif event == events_list['power_on_1']:
         event = None
         command_send("safepwr 1", "Power ON")
 
-    elif event is events_list['command_send']:
+    elif event == events_list['command_send']:
         event = None
 
-    elif event is events_list['command_send_double']:
+    elif event == events_list['command_send_double']:
         event = None
         command_send(double_command, double_command_comment)
 
-    elif event is events_list['init_0']:
+    elif event == events_list['init_0']:
         event = None
         if command_send("safepwr 0", new_event=events_list['init_1']) is True:
             gui.config_button(button_id=current_button['id'], text="INIT in progress", bg="#660D0D", active_background="#660D0D")
-    elif event is events_list['init_1']:
+    elif event == events_list['init_1']:
         event = None
         command_send("pwr 0", new_event=events_list['init_2'], delay=2)
-    elif event is events_list['init_2']:
+    elif event == events_list['init_2']:
         event = None
         command_send("safepwr 1", new_event=events_list['init_3'])
-    elif event is events_list['init_3']:
+    elif event == events_list['init_3']:
         event = None
         command_send("init 1000")
         gui.config_button(button_id=current_button['id'], text="INIT", bg="#0C6046", active_background="#0C6046")
 
-    elif event is events_list['dpc_0']:
+    elif event == events_list['dpc_0']:
         event = None
         if command_send("pwr 0", new_event=events_list['dpc_1'], delay=2) is True:
             gui.config_button(button_id=current_button['id'], text="DPC in progress", bg="#660D0D", active_background="#660D0D")
-    elif event is events_list['dpc_1']:
+    elif event == events_list['dpc_1']:
         event = None
         command_send("safepwr 1", new_event=events_list['dpc_2'], delay=0.5)
-    elif event is events_list['dpc_2']:
+    elif event == events_list['dpc_2']:
         event = None
         command_send("pwr 1", new_event=events_list['dpc_3'], delay=2)
-    elif event is events_list['dpc_3']:
+    elif event == events_list['dpc_3']:
         event = None
         command_send("pwr 0", new_event=events_list['dpc_4'], delay=2)
-    elif event is events_list['dpc_4']:
+    elif event == events_list['dpc_4']:
         event = None
         command_send("pwr 1", new_event=events_list['dpc_5'], delay=7)
-    elif event is events_list['dpc_5']:
+    elif event == events_list['dpc_5']:
         event = None
         command_send("pwr 0", new_event=events_list['dpc_6'], delay=2)
-    elif event is events_list['dpc_6']:
+    elif event == events_list['dpc_6']:
         event = None
         command_send("pwr 1")
         gui.config_button(button_id=current_button['id'], text="DPC", bg="#0C6046", active_background="#0C6046")
@@ -117,9 +117,11 @@ def create_event(new_event, time):
     -----------------------------------------------------------------------------------------------------------------"""
     global event, event_timer
 
-    if event is None and state is panel_state['normal']:
+    if event is None and state == panel_state['normal']:
         event = new_event
-        event_timer = Timer(time, lambda: events())
+        # events() touches Tkinter widgets; the Timer fires on its own thread,
+        # so hand off execution to the main thread via gui.run_on_ui_thread().
+        event_timer = Timer(time, lambda: gui.run_on_ui_thread(events))
         event_timer.start()
         return True
 
@@ -183,7 +185,7 @@ def panel_button_pressed(button_id, command=None):
     global current_button
     command = command.lower()
 
-    if state is panel_state['normal'] and command is not None:
+    if state == panel_state['normal'] and command is not None:
         # send command
         button_text = gui.get_button_data(button_id=button_id, text=True)
 
@@ -200,7 +202,7 @@ def panel_button_pressed(button_id, command=None):
             command_send(command, button_text)
             create_event(events_list['command_send'], 0.5)
 
-    elif state is panel_state['edit']:
+    elif state == panel_state['edit']:
         # edit button
         panel_edit.send_data(name=gui.get_button_data(button_id, text=True), command=command,
                              bg=gui.get_button_data(button_id, bg=True),
@@ -221,11 +223,11 @@ def panel_button_pressed(button_id, command=None):
 def command_send(msg, comment=None, new_event=events_list['command_send'], delay=0.5):
     """command_send
     -----------------------------------------------------------------------------------------------------------------"""
-    if state is panel_state['normal']:
+    if state == panel_state['normal']:
         if power_line.is_connected() is False:
             terminal_main.add_text("not connected")
             return False
-        elif state is panel_state['normal']:
+        else:
             print(msg)
             cmd = msg.lower() + "\r\n"
             cmd = cmd.encode('utf-8')

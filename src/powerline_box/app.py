@@ -1,9 +1,9 @@
 
 import os
-import sys
 import tkinter as tk
 
 from powerline_box import config
+from powerline_box import gui
 from powerline_box.windows.about import WindowAbout
 from powerline_box.windows.home import WindowHome
 from powerline_box.windows.panel_view import WindowPanel
@@ -20,6 +20,10 @@ class WindowManager(tk.Tk):
         """
 
         tk.Tk.__init__(self, *args, **kwargs)
+
+        # register root so background threads (UART reader, Timer sequences) can
+        # safely marshal GUI updates via gui.run_on_ui_thread()
+        gui.set_root(self)
 
         # geometry
         self.geometry("{0}x{1}".format(config.windows['width'], config.windows['height']))
@@ -81,8 +85,9 @@ def _on_closing(app):
       ------------------------------------------------------------------------------------------------------------------
       """
     app.destroy()
-    os.system('taskkill /f /im powerline-box.exe')
-    sys.exit
+    # Force-exit this process only (background UART/Timer threads are not
+    # daemonized); avoid killing unrelated processes by image name.
+    os._exit(0)
 
 
 def run():

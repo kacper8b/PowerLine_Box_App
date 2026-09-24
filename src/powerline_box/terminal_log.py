@@ -45,7 +45,9 @@ def add_text(text, received=False):
             new_text += "\n\t{0}\t{1}".format(message_type_char, text[current_char:current_char+column_max-1])
             current_char = current_char+column_max-1
 
-    gui.add_text(text_id=id_text['terminal'], new_text=new_text)
+    # add_text may be called from background threads (UART reader thread);
+    # Tkinter widgets must only be touched from the main thread.
+    gui.run_on_ui_thread(lambda: gui.add_text(text_id=id_text['terminal'], new_text=new_text))
 
 
 def clear():

@@ -108,7 +108,7 @@ def config_buttons():
                     idx += 1
                     button_id = "{0}{1}".format(id_button['button'], idx)
 
-                    if x is column and y is row:
+                    if x == column and y == row:
                         gui.config_button(button_id=button_id, text=name,
                                           action=lambda b_id=button_id,
                                           cmd=command: panel.panel_button_pressed(b_id, cmd),

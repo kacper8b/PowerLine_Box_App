@@ -45,12 +45,15 @@ class WindowSettings(tk.Frame):
         gui.create_label(self.frame, label_id="PL_baud_rate", text="Baud rate:", x=20, y=65)
 
         # read user PORT
-        with open(config.directory_config) as json_data:
-            config_data = json.load(json_data)
-            json_data.close()
+        try:
+            with open(config.directory_config) as json_data:
+                config_data = json.load(json_data)
+        except (OSError, ValueError, KeyError) as error:
+            print("Could not read {0}: {1}".format(config.directory_config, error))
+            config_data = {}
 
         global port_old
-        port_old = config_data['power line port']
+        port_old = config_data.get('power line port', 'COM4')
 
         gui.create_entry(self.frame, entry_id=id_entry['COM'], text=port_old,
                          height=25, width=100, x=90, y=45)

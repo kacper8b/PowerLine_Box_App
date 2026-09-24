@@ -7,6 +7,26 @@ Labels = []   # Labels    -      {"label_id", "text", "label"}
 Texts = []    # Texts     -      {"text_id", "frame", "text", "readonly"}
 Entries = []  # Entries   -      {"entry_id", "frame", "entry"} 
 
+_root = None  # Tk root window, registered via set_root() once created
+
+
+def set_root(root):
+    """Register the Tk root window so background threads can marshal calls onto the main thread.
+    --------------------------------------------------------------------------------------------------------------------
+    """
+    global _root
+    _root = root
+
+
+def run_on_ui_thread(func):
+    """Schedule func to run on the Tk main thread (Tkinter widgets are not thread-safe).
+    --------------------------------------------------------------------------------------------------------------------
+    """
+    if _root is not None:
+        _root.after(0, func)
+    else:
+        func()
+
 
 def create_button(frame, button_id=None, text=" ", height=30, width=120, x=0, y=0, action=None, relx=None, rely=None,
                   bg=None, fg=None, active_background=None, active_foreground=None):
@@ -66,7 +86,7 @@ def config_button(button_id, text=None, height=None, width=None, x=None, y=None,
 
     # return error in case when button will not be find
     if button is None:
-        return "button nof found"
+        return "button not found"
 
     # configuration
     if text is not None:
@@ -113,7 +133,7 @@ def get_button_data(button_id, text=None, bg=None, fg=None, x=None, y=None):
 
     if button is None:
         # return error in case when button will not be find
-        return "button nof found"
+        return "button not found"
     else:
         if text is not None:
             return button['text']
@@ -143,7 +163,7 @@ def hide_button(button_id):
 
     # return error in case when button will not be find
     if button is None:
-        return "button nof found"
+        return "button not found"
 
     button.pack_forget()
 
@@ -167,7 +187,7 @@ def show_button(button_id):
 
     # return error in case when button will not be find
     if button is None:
-        return "button nof found"
+        return "button not found"
 
     button.pack(fill=tk.BOTH, expand=1)
 
@@ -207,7 +227,7 @@ def config_label(label_id, x, y, text=""):
 
     # return error in case when label will not be find
     if label is None:
-        return "label nof found"
+        return "label not found"
 
     if text is not None:
         label.config(text=text)
@@ -349,7 +369,7 @@ def config_entry(entry_id, x=None, y=None, text=None, height=None, width=None, r
 
     # return error in case when button will not be find
     if entry is None:
-        return "entry nof found"
+        return "entry not found"
 
     if x is not None:
         frame.place(x=x)

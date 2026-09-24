@@ -13,7 +13,7 @@ def connect(port="COM4", baud=9600):
     """connect
     --------------------------------------------------------------------------------------------------------------------
     """
-    state, message = terminal.connect(terminal_id=power_line_terminal['id'], port=port, baud=9600, callback=callback)
+    state, message = terminal.connect(terminal_id=power_line_terminal['id'], port=port, baud=baud, callback=callback)
     return state
 
 
@@ -37,7 +37,7 @@ def callback(message):
     --------------------------------------------------------------------------------------------------------------------
     """
     message = (message.decode('utf-8')).replace('\r\n', '')
-    if message is not "":
+    if message != "":
         terminal_main.add_text(message, received=True)
 
 
