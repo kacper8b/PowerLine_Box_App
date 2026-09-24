@@ -1,7 +1,9 @@
 
+import logging
 import serial
-import sys
 import _thread
+
+logger = logging.getLogger(__name__)
 
 
 class Uart:
@@ -25,7 +27,7 @@ class Uart:
             self.IsOpen = True
             return True
         except Exception as error:
-            print("Cant open specified port:", error)
+            logger.error("Cant open specified port: %s", error)
             self.IsOpen = False
             return False
 
@@ -38,7 +40,7 @@ class Uart:
             self.SerialPort.close()
             return True
         except Exception as error:
-            print("Error closing port:", error)
+            logger.error("Error closing port: %s", error)
             return False
 
     def register_new_thread(self, receive_callback, type_serial=0):
@@ -53,7 +55,7 @@ class Uart:
             else:
                 _thread.start_new_thread(self.serial_read_thread, ())
         except Exception:
-            print("Error starting Read thread: ", sys.exc_info()[0])
+            logger.exception("Error starting Read thread")
 
     def serial_readline_thread(self):
         """serial_readline_thread
@@ -66,7 +68,7 @@ class Uart:
                 if self.receivedMessage != "":
                     self.ReceiveCallback(self.receivedMessage)
             except Exception as error:
-                print("Error reading line COM port:", error)
+                logger.error("Error reading line COM port: %s", error)
 
     def change_callback(self, receive_callback):
         """change_callback
@@ -84,7 +86,7 @@ class Uart:
                 if self.receivedMessage != "":
                     self.ReceiveCallback(self.receivedMessage)
             except Exception as error:
-                print("Error reading COM port:", error)
+                logger.error("Error reading COM port: %s", error)
 
     def send_data(self, data):
         """send_data

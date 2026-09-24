@@ -1,4 +1,6 @@
 
+import logging
+import logging.handlers
 import os
 import tkinter as tk
 
@@ -95,6 +97,19 @@ def run():
     Builds and starts the PowerLine Box application window.
     ----------------------------------------------------------------------------------------------------------------
     """
+    # Log to the console (visible when run via python) and to a rotating file
+    # in the user's config folder (visible even for the windowed/console=False
+    # .exe build, where stderr has nowhere to go).
+    os.makedirs(config.directory_user, exist_ok=True)
+    log_file = os.path.join(config.directory_user, "app.log")
+    logging.basicConfig(
+        level=logging.DEBUG,
+        format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
+        handlers=[
+            logging.StreamHandler(),
+            logging.handlers.RotatingFileHandler(log_file, maxBytes=1_000_000, backupCount=3, encoding='utf-8'),
+        ],
+    )
     config.configuration_init()
     app = WindowManager()
     app.title("PowerLine Box")

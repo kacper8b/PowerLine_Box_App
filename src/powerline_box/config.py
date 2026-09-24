@@ -1,9 +1,12 @@
 
+import logging
 import os
 import sys
 from shutil import copyfile
 
 from powerline_box import theme
+
+logger = logging.getLogger(__name__)
 
 windows = dict(
     width=1000,
@@ -125,9 +128,9 @@ def configuration_init():
         try:
             os.mkdir(directory_user)
         except OSError as error:
-            print("Creation of the directory {0} failed: {1}".format(directory_user, error))
+            logger.error("Creation of the directory %s failed: %s", directory_user, error)
         else:
-            print("Successfully created the directory {0}".format(directory_user))
+            logger.info("Successfully created the directory %s", directory_user)
 
     # copy config files
     file_config = ['config.json', 'panel_buttons.json']
@@ -137,6 +140,6 @@ def configuration_init():
             try:
                 copyfile(os.path.join(_CONFIG_TEMPLATES_DIR, file), destination)
             except OSError as error:
-                print("Copy of the file {0} failed: {1}".format(os.path.join(_CONFIG_TEMPLATES_DIR, file), error))
+                logger.error("Copy of the file %s failed: %s", os.path.join(_CONFIG_TEMPLATES_DIR, file), error)
             else:
-                print("Successfully copy of the file {0}".format(os.path.join(_CONFIG_TEMPLATES_DIR, file)))
+                logger.info("Successfully copy of the file %s", os.path.join(_CONFIG_TEMPLATES_DIR, file))

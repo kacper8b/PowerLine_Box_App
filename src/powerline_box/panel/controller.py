@@ -1,5 +1,6 @@
 
 from threading import Timer
+import logging
 
 from powerline_box import gui
 from powerline_box import terminal_log as terminal_main
@@ -8,6 +9,8 @@ from powerline_box.panel import buttons as panel_buttons
 from powerline_box.panel import edit as panel_edit
 from powerline_box.panel import main_panel as panel_main
 from powerline_box.uart import power_line
+
+logger = logging.getLogger(__name__)
 
 
 panel_state = {
@@ -232,7 +235,7 @@ def command_send(msg, comment=None, new_event=events_list['command_send'], delay
             terminal_main.add_text("not connected")
             return False
         else:
-            print(msg)
+            logger.debug(msg)
             cmd = msg.lower() + "\r\n"
             cmd = cmd.encode('utf-8')
 

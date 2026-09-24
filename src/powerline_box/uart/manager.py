@@ -1,5 +1,9 @@
+import logging
+
 from powerline_box import terminal_log as terminal_main
 from powerline_box.uart.serial_port import Uart
+
+logger = logging.getLogger(__name__)
 
 Uart1 = Uart()
 Uart2 = Uart()
@@ -40,7 +44,10 @@ def connect(terminal_id, callback, port=None, baud=None):
     else:
         message = "Not possible to connect with Port: {0}".format(port)
 
-    print(message)
+    if state:
+        logger.info(message)
+    else:
+        logger.warning(message)
     terminal_main.add_text(message)
     return state, message
 
@@ -70,7 +77,10 @@ def disconnect(terminal_id):
     else:
         error = "Error, not connected"
 
-    print(error)
+    if state:
+        logger.info(error)
+    else:
+        logger.warning(error)
     terminal_main.add_text(error)
 
     return state, error

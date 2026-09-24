@@ -1,10 +1,13 @@
 import json
+import logging
 import tkinter as tk
 
 from powerline_box import config
 from powerline_box import gui
 from powerline_box import theme
 from powerline_box.uart import power_line
+
+logger = logging.getLogger(__name__)
 
 
 # USED interfaces:
@@ -42,7 +45,7 @@ class WindowSettings(tk.Frame):
             with open(config.directory_config, encoding='utf-8') as json_data:
                 config_data = json.load(json_data)
         except (OSError, ValueError, KeyError) as error:
-            print("Could not read {0}: {1}".format(config.directory_config, error))
+            logger.error("Could not read %s: %s", config.directory_config, error)
             config_data = {}
 
         self.port_old = config_data.get('power line port', 'COM4')
