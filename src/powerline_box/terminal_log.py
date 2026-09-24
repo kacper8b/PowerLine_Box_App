@@ -30,7 +30,7 @@ def add_text(text, received=False):
     new_text = ""
     current_char = 0
 
-    if received is True:
+    if received:
         message_type_char = "<--"
     else:
         message_type_char = "-->"

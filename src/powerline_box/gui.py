@@ -242,7 +242,7 @@ def create_text(frame, height, width, x, y, text_id=None, readonly=True, backgro
     if background is not None:
         text.config(background=background)
 
-    if readonly is True:
+    if readonly:
         text.config(state=tk.DISABLED)
     else:
         text.config(state=tk.NORMAL)
@@ -267,7 +267,7 @@ def add_text(text_id, new_text):
         return
 
     text = record["text"]
-    if record["readonly"] is True:
+    if record["readonly"]:
         text.config(state=tk.NORMAL)
         text.insert(tk.END, "{0}\n".format(new_text))
         text.config(state=tk.DISABLED)
@@ -286,7 +286,7 @@ def remove_text(text_id):
         return
 
     text = record["text"]
-    if record["readonly"] is True:
+    if record["readonly"]:
         text.config(state=tk.NORMAL)
         text.delete("1.0", tk.END)
         text.config(state=tk.DISABLED)
@@ -316,7 +316,7 @@ def create_entry(frame, entry_id, x, y, text=None, height=30, width=200, readonl
         entry.delete(0, "end")
         entry.insert(0, text)
 
-    if readonly is True:
+    if readonly:
         entry.config(state=tk.DISABLED)
     else:
         entry.config(state=tk.NORMAL)
@@ -352,7 +352,7 @@ def config_entry(entry_id, x=None, y=None, text=None, height=None, width=None, r
         entry.insert(0, text)
 
     if readonly is not None:
-        if readonly is True:
+        if readonly:
             entry.config(state=tk.DISABLED)
         else:
             entry.config(state=tk.NORMAL)

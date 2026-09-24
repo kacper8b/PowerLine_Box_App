@@ -145,7 +145,7 @@ def edit_button(button_id, new_command, new_text, new_bg, new_fg):
             break
 
     # create new button
-    if new_button is True:
+    if new_button:
 
         buttons_columns = config.panel_buttons['buttons_columns']
         buttons_rows = config.panel_buttons['buttons_rows']

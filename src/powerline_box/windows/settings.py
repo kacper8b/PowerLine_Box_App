@@ -71,10 +71,10 @@ class WindowSettings(tk.Frame):
         """
         global port_old, port_new
 
-        if power_line.is_connected() is False:
+        if not power_line.is_connected():
             port_new = gui.get_entry(id_entry['COM']).get()
             state = power_line.connect(port=port_new)
-            if state is True:
+            if state:
                 gui.config_button(button_id=id_button['connect'], text="connected",
                                   bg="#0C6046", active_background="#0C6046")
 
@@ -94,6 +94,6 @@ class WindowSettings(tk.Frame):
 
         else:
             state = power_line.disconnect()
-            if state is True:
+            if state:
                 gui.config_button(button_id=id_button['connect'], text="connect",
                                   bg="#660D0D", active_background="#660D0D")

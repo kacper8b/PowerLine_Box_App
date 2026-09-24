@@ -74,7 +74,7 @@ def events():
 
     elif event == events_list['init_0']:
         event = None
-        if command_send("safepwr 0", new_event=events_list['init_1']) is True:
+        if command_send("safepwr 0", new_event=events_list['init_1']):
             gui.config_button(button_id=current_button['id'], text="INIT in progress", bg="#660D0D", active_background="#660D0D")
     elif event == events_list['init_1']:
         event = None
@@ -89,7 +89,7 @@ def events():
 
     elif event == events_list['dpc_0']:
         event = None
-        if command_send("pwr 0", new_event=events_list['dpc_1'], delay=2) is True:
+        if command_send("pwr 0", new_event=events_list['dpc_1'], delay=2):
             gui.config_button(button_id=current_button['id'], text="DPC in progress", bg="#660D0D", active_background="#660D0D")
     elif event == events_list['dpc_1']:
         event = None
@@ -177,6 +177,25 @@ def save():
     previous_button['id'] = None
 
 
+def classify_ppc_command(command):
+    """Classify a lowercase command string for frame generation.
+
+    Returns (kind, parts):
+      - ("single", (command,))       - a plain single-frame ppc command
+      - ("double", (cmd1, cmd2))     - a double-frame ppc command split in two
+      - ("other", (command,))        - any other command, sent as-is
+    -----------------------------------------------------------------------------------------------------------------"""
+    if "ppc" in command and command.count('d') == 1 and command.count('f') == 1:
+        return "single", (command,)
+    elif "ppc" in command and command.count('d') == 2 and command.count('f') == 2:
+        d2 = command.rfind('d')
+        cmd1 = command[0:d2]
+        cmd2 = "ppc " + command[d2:]
+        return "double", (cmd1, cmd2)
+    else:
+        return "other", (command,)
+
+
 def panel_button_pressed(button_id, command=None):
     """command_send
     -----------------------------------------------------------------------------------------------------------------"""
@@ -189,12 +208,11 @@ def panel_button_pressed(button_id, command=None):
         # send command
         button_text = gui.get_button_data(button_id=button_id, text=True)
 
-        if "ppc" in command and command.count('d') == 1 and command.count('f') == 1:
+        kind, parts = classify_ppc_command(command)
+        if kind == "single":
             command_send(command, button_text)
-        elif "ppc" in command and command.count('d') == 2 and command.count('f') == 2:
-            d2 = command.rfind('d')
-            cmd1 = command[0:d2]
-            cmd2 = "ppc " + command[d2:]
+        elif kind == "double":
+            cmd1, cmd2 = parts
             command_send(cmd1, button_text + ", part 1/2", new_event=events_list['command_send_double'])
             double_command = cmd2
             double_command_comment = button_text + ", part 2/2"
@@ -224,7 +242,7 @@ def command_send(msg, comment=None, new_event=events_list['command_send'], delay
     """command_send
     -----------------------------------------------------------------------------------------------------------------"""
     if state == panel_state['normal']:
-        if power_line.is_connected() is False:
+        if not power_line.is_connected():
             terminal_main.add_text("not connected")
             return False
         else:
@@ -259,7 +277,7 @@ def init(button_id):
     global current_button
 
     if gui.get_button_data(button_id, text=True) == "INIT":
-        if create_event(new_event=events_list['init_0'], time=0) is True:
+        if create_event(new_event=events_list['init_0'], time=0):
             current_button['id'] = button_id
     else:
         current_button['id'] = None
@@ -292,7 +310,7 @@ def dpc(button_id):
     global current_button
 
     if gui.get_button_data(button_id, text=True) == "DPC":
-        if create_event(new_event=events_list['dpc_0'], time=0) is True:
+        if create_event(new_event=events_list['dpc_0'], time=0):
             current_button['id'] = button_id
     else:
         current_button['id'] = None

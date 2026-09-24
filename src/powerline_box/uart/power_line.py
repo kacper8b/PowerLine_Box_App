@@ -45,7 +45,7 @@ def send(message):
     """send
     --------------------------------------------------------------------------------------------------------------------
     """
-    if is_connected() is True:
+    if is_connected():
         terminal.send_data(terminal_id=power_line_terminal['id'], data=message)
         return message
     else:
