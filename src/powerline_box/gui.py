@@ -2,10 +2,10 @@
 import tkinter as tk
 import re
 
-Buttons = []  # Buttons   -      {"button_id", "frame", "button"}
-Labels = []   # Labels    -      {"label_id", "text", "label"}
-Texts = []    # Texts     -      {"text_id", "frame", "text", "readonly"}
-Entries = []  # Entries   -      {"entry_id", "frame", "entry"} 
+Buttons = {}  # Buttons   -      button_id -> {"frame", "button"}
+Labels = []   # Labels    -      {"label_id", "text", "label"} (ids intentionally reused, kept as a list)
+Texts = {}    # Texts     -      text_id -> {"text", "readonly"}
+Entries = {}  # Entries   -      entry_id -> {"frame", "entry"}
 
 _root = None  # Tk root window, registered via set_root() once created
 
@@ -62,10 +62,10 @@ def create_button(frame, button_id=None, text=" ", height=30, width=120, x=0, y=
     if active_foreground is not None:
         button.config(activeforeground=active_foreground)
 
-    new_button = {"button_id": button_id, "frame": frame_button, "button": button}
+    new_button = {"frame": frame_button, "button": button}
 
     if button_id is not None:
-        Buttons.append(new_button)
+        Buttons[button_id] = new_button
 
 
 def config_button(button_id, text=None, height=None, width=None, x=None, y=None, action=None, relx=None, rely=None,
@@ -76,17 +76,13 @@ def config_button(button_id, text=None, height=None, width=None, x=None, y=None,
     """
 
     # find the button
-    button = None
-    frame = None
-    for b in Buttons:
-        if b["button_id"] == button_id:
-            button = b["button"]
-            frame = b["frame"]
-            break
+    entry = Buttons.get(button_id)
 
     # return error in case when button will not be find
-    if button is None:
+    if entry is None:
         return "button not found"
+    button = entry["button"]
+    frame = entry["frame"]
 
     # configuration
     if text is not None:
@@ -125,16 +121,13 @@ def get_button_data(button_id, text=None, bg=None, fg=None, x=None, y=None):
     """
 
     # find the button
-    button = None
-    for b in Buttons:
-        if b["button_id"] == button_id:
-            button = b["button"]
-            break
+    entry = Buttons.get(button_id)
 
-    if button is None:
+    if entry is None:
         # return error in case when button will not be find
         return "button not found"
     else:
+        button = entry["button"]
         if text is not None:
             return button['text']
         if bg is not None:
@@ -154,18 +147,13 @@ def hide_button(button_id):
     """
 
     # find the button
-    button = None
-    for b in Buttons:
-        if b["button_id"] == button_id:
-            button = b["button"]
-            frame = b["frame"]
-            break
+    entry = Buttons.get(button_id)
 
     # return error in case when button will not be find
-    if button is None:
+    if entry is None:
         return "button not found"
 
-    button.pack_forget()
+    entry["button"].pack_forget()
 
     # in case of success return 1
     return 1
@@ -178,18 +166,13 @@ def show_button(button_id):
     """
 
     # find the button
-    button = None
-    for b in Buttons:
-        if b["button_id"] == button_id:
-            button = b["button"]
-            frame = b["frame"]
-            break
+    entry = Buttons.get(button_id)
 
     # return error in case when button will not be find
-    if button is None:
+    if entry is None:
         return "button not found"
 
-    button.pack(fill=tk.BOTH, expand=1)
+    entry["button"].pack(fill=tk.BOTH, expand=1)
 
     # in case of success return 1
     return 1
@@ -264,34 +247,27 @@ def create_text(frame, height, width, x, y, text_id=None, readonly=True, backgro
     else:
         text.config(state=tk.NORMAL)
 
-    new_text = {"text_id": text_id, "text": text, "readonly": readonly}
-    Texts.append(new_text)
+    Texts[text_id] = {"text": text, "readonly": readonly}
 
 
 def get_text(text_id):
     """get text
     --------------------------------------------------------------------------------------------------------------------
     """
-    for t in Texts:
-        if t["text_id"] == text_id:
-            return t["text"]
+    entry = Texts.get(text_id)
+    return entry["text"] if entry is not None else None
 
 
 def add_text(text_id, new_text):
     """add text
     --------------------------------------------------------------------------------------------------------------------
     """
-    readonly = None
-    text = None
+    entry = Texts.get(text_id)
+    if entry is None:
+        return
 
-    # find the Text object, text
-    for t in Texts:
-        if t["text_id"] == text_id:
-            readonly = t["readonly"]
-            text = t["text"]
-            break
-
-    if readonly is True:
+    text = entry["text"]
+    if entry["readonly"] is True:
         text.config(state=tk.NORMAL)
         text.insert(tk.END, "{0}\n".format(new_text))
         text.config(state=tk.DISABLED)
@@ -305,17 +281,12 @@ def remove_text(text_id):
     """remove_text
     --------------------------------------------------------------------------------------------------------------------
     """
-    readonly = None
-    text = None
+    entry = Texts.get(text_id)
+    if entry is None:
+        return
 
-    # find the Text object, text
-    for t in Texts:
-        if t["text_id"] == text_id:
-            readonly = t["readonly"]
-            text = t["text"]
-            break
-
-    if readonly is True:
+    text = entry["text"]
+    if entry["readonly"] is True:
         text.config(state=tk.NORMAL)
         text.delete("1.0", tk.END)
         text.config(state=tk.DISABLED)
@@ -350,8 +321,7 @@ def create_entry(frame, entry_id, x, y, text=None, height=30, width=200, readonl
     else:
         entry.config(state=tk.NORMAL)
     
-    new_entry = {"entry_id": entry_id, "frame": frame_entry, "entry": entry}
-    Entries.append(new_entry)
+    Entries[entry_id] = {"frame": frame_entry, "entry": entry}
     
 
 def config_entry(entry_id, x=None, y=None, text=None, height=None, width=None, readonly=None):
@@ -359,17 +329,13 @@ def config_entry(entry_id, x=None, y=None, text=None, height=None, width=None, r
     --------------------------------------------------------------------------------------------------------------------
     """
     # find the entry
-    entry = None
-    frame = None
-    for e in Entries:
-        if e["entry_id"] == entry_id:
-            entry = e["entry"]
-            frame = e["frame"]
-            break
+    item = Entries.get(entry_id)
 
     # return error in case when button will not be find
-    if entry is None:
+    if item is None:
         return "entry not found"
+    entry = item["entry"]
+    frame = item["frame"]
 
     if x is not None:
         frame.place(x=x)
@@ -396,9 +362,8 @@ def get_entry(entry_id):
     """get entry
     --------------------------------------------------------------------------------------------------------------------
     """
-    for e in Entries:
-        if e["entry_id"] == entry_id:
-            return e["entry"]
+    entry = Entries.get(entry_id)
+    return entry["entry"] if entry is not None else None
 
 
 def check_color(color_code):
