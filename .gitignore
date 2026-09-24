@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Wirtualne srodowisko
+.venv/
+venv/
+env/
+
+# Artefakty budowy PyInstaller
+build/
+dist/
+
+# System
+Thumbs.db
+.DS_Store
+
+# IDE
+.vscode/
+.idea/

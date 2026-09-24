@@ -1,0 +1,15 @@
+1. Upgrade pip
+pip install --upgrade pip
+
+2. Install pyinstaller
+pip install pyinstaller
+
+4. Remove folders:
+- build
+- dist
+
+3. Run cmd in powerline-box location:
+- pyinstaller powerline-box.spec
+- COPY "powerline-box.ico" "dist\powerline-box.ico"
+- COPY "config.json" "dist\config.json"
+- COPY "panel_buttons.json" "dist\panel_buttons.json"

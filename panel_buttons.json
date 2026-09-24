@@ -1,0 +1,380 @@
+[
+    {
+        "id": "button_1",
+        "name": "Up",
+        "command": "ppc d0f",
+        "x": 0,
+        "y": 0,
+        "bg": "#660D0D",
+        "fg": "#ffffff"
+    },
+    {
+        "id": "button_2",
+        "name": "Stop",
+        "command": "ppc df",
+        "x": 1,
+        "y": 0,
+        "bg": "#F38F8F",
+        "fg": "#000000"
+    },
+    {
+        "id": "button_3",
+        "name": "Down",
+        "command": "ppc d1f",
+        "x": 2,
+        "y": 0,
+        "bg": "#660D0D",
+        "fg": "#ffffff"
+    },
+    {
+        "id": "button_60",
+        "name": "Opening Radio",
+        "command": "ppc D00F",
+        "x": 5,
+        "y": 9,
+        "bg": "#000000",
+        "fg": "#ffffff"
+    },
+    {
+        "id": "button_15",
+        "name": "Record DEL",
+        "command": "ppc d1010f",
+        "x": 2,
+        "y": 2,
+        "bg": "#4B1212",
+        "fg": "#ffffff"
+    },
+    {
+        "id": "button_6",
+        "name": "Validation P1",
+        "command": "ppc d11fd11f",
+        "x": 5,
+        "y": 0,
+        "bg": "#1C2F4D",
+        "fg": "#ffffff"
+    },
+    {
+        "id": "button_12",
+        "name": "Validation P2",
+        "command": "ppc d11fd00f",
+        "x": 5,
+        "y": 1,
+        "bg": "#1C2F4D",
+        "fg": "#ffffff"
+    },
+    {
+        "id": "button_18",
+        "name": "Validation P3",
+        "command": "ppc d11fd00f",
+        "x": 5,
+        "y": 2,
+        "bg": "#1C2F4D",
+        "fg": "#ffffff"
+    },
+    {
+        "id": "button_24",
+        "name": "Validation P4",
+        "command": "ppc d11fd010f",
+        "x": 5,
+        "y": 3,
+        "bg": "#1C2F4D",
+        "fg": "#ffffff"
+    },
+    {
+        "id": "button_30",
+        "name": "Validation P5",
+        "command": "ppc d11fd110f",
+        "x": 5,
+        "y": 4,
+        "bg": "#1C2F4D",
+        "fg": "#ffffff"
+    },
+    {
+        "id": "button_36",
+        "name": "Validation P6",
+        "command": "ppc d11fd011f",
+        "x": 5,
+        "y": 5,
+        "bg": "#1C2F4D",
+        "fg": "#ffffff"
+    },
+    {
+        "id": "button_42",
+        "name": "Validation P7",
+        "command": "ppc d11fd111f",
+        "x": 5,
+        "y": 6,
+        "bg": "#1C2F4D",
+        "fg": "#ffffff"
+    },
+    {
+        "id": "button_14",
+        "name": "Record MY",
+        "command": "ppc d1011f",
+        "x": 1,
+        "y": 2,
+        "bg": "#4B1212",
+        "fg": "#ffffff"
+    },
+    {
+        "id": "button_7",
+        "name": "Up without ODS",
+        "command": "ppc d0000f",
+        "x": 0,
+        "y": 1,
+        "bg": "#660D0D",
+        "fg": "#ffffff"
+    },
+    {
+        "id": "button_9",
+        "name": "Down without ODS",
+        "command": "ppc d0001f",
+        "x": 2,
+        "y": 1,
+        "bg": "#660D0D",
+        "fg": "#ffffff"
+    },
+    {
+        "id": "button_13",
+        "name": "Record UEL",
+        "command": "ppc d1001f",
+        "x": 0,
+        "y": 2,
+        "bg": "#4B1212",
+        "fg": "#ffffff"
+    },
+    {
+        "id": "button_55",
+        "name": "RAZ OEM",
+        "command": "ppc d101f",
+        "x": 0,
+        "y": 9,
+        "bg": "#225029",
+        "fg": "#ffffff"
+    },
+    {
+        "id": "button_50",
+        "name": "Lock DEL",
+        "command": "ppc d000101f",
+        "x": 1,
+        "y": 8,
+        "bg": "#726813",
+        "fg": "#ffffff"
+    },
+    {
+        "id": "button_49",
+        "name": "Get Diagnostic",
+        "command": "ppc d0111f",
+        "x": 0,
+        "y": 8,
+        "bg": "#000000",
+        "fg": "#ffffff"
+    },
+    {
+        "id": "button_44",
+        "name": "Set Rotation DIR2",
+        "command": "ppc d111f",
+        "x": 1,
+        "y": 7,
+        "bg": "#752275",
+        "fg": "#ffffff"
+    },
+    {
+        "id": "button_38",
+        "name": "Set Rotation DIR1",
+        "command": "ppc d110f",
+        "x": 1,
+        "y": 6,
+        "bg": "#752275",
+        "fg": "#ffffff"
+    },
+    {
+        "id": "button_54",
+        "name": "RAZ PROG",
+        "command": "ppc d1100f",
+        "x": 5,
+        "y": 8,
+        "bg": "#225029",
+        "fg": "#ffffff"
+    },
+    {
+        "id": "button_51",
+        "name": "Auto Readj. ON",
+        "command": "ppc d000f",
+        "x": 2,
+        "y": 8,
+        "bg": "#9BD8A1",
+        "fg": "#000000"
+    },
+    {
+        "id": "button_57",
+        "name": "Auto Readj. OFF",
+        "command": "ppc d001f",
+        "x": 2,
+        "y": 9,
+        "bg": "#9BD8A1",
+        "fg": "#000000"
+    },
+    {
+        "id": "button_33",
+        "name": "Enable ODS High",
+        "command": "ppc d001000f",
+        "x": 2,
+        "y": 5,
+        "bg": "#77AEBA",
+        "fg": "#000000"
+    },
+    {
+        "id": "button_39",
+        "name": "Enable ODS Low",
+        "command": "ppc d001010f",
+        "x": 2,
+        "y": 6,
+        "bg": "#77AEBA",
+        "fg": "#000000"
+    },
+    {
+        "id": "button_45",
+        "name": "Disable ODS",
+        "command": "ppc d001001f",
+        "x": 2,
+        "y": 7,
+        "bg": "#77AEBA",
+        "fg": "#000000"
+    },
+    {
+        "id": "button_43",
+        "name": "Enter in EMS mode",
+        "command": "ppc d0011f",
+        "x": 0,
+        "y": 7,
+        "bg": "#000000",
+        "fg": "#ffffff"
+    },
+    {
+        "id": "button_8",
+        "name": "Go to MY",
+        "command": "ppc d001011f",
+        "x": 1,
+        "y": 1,
+        "bg": "#660D0D",
+        "fg": "#ffffff"
+    },
+    {
+        "id": "button_34",
+        "name": "Reco J4 io",
+        "command": "ppc d101001f",
+        "x": 3,
+        "y": 5,
+        "bg": "#ffffff",
+        "fg": "#000000"
+    },
+    {
+        "id": "button_40",
+        "name": "Reco J4 WT protect",
+        "command": "ppc d100110f",
+        "x": 3,
+        "y": 6,
+        "bg": "#ffffff",
+        "fg": "#000000"
+    },
+    {
+        "id": "button_46",
+        "name": "Reco J4 WT",
+        "command": "ppc d100101f",
+        "x": 3,
+        "y": 7,
+        "bg": "#ffffff",
+        "fg": "#000000"
+    },
+    {
+        "id": "button_52",
+        "name": "Reco J4 2WT",
+        "command": "ppc d00011f",
+        "x": 3,
+        "y": 8,
+        "bg": "#ffffff",
+        "fg": "#000000"
+    },
+    {
+        "id": "button_58",
+        "name": "Reco J4 RTS",
+        "command": "ppc d00010f",
+        "x": 3,
+        "y": 9,
+        "bg": "#ffffff",
+        "fg": "#000000"
+    },
+    {
+        "id": "button_5",
+        "name": "Perso 1",
+        "command": "ppc d10fd11f",
+        "x": 4,
+        "y": 0,
+        "bg": "#375582",
+        "fg": "#ffffff"
+    },
+    {
+        "id": "button_11",
+        "name": "Perso 2",
+        "command": "ppc d10fd100f",
+        "x": 4,
+        "y": 1,
+        "bg": "#375582",
+        "fg": "#ffffff"
+    },
+    {
+        "id": "button_17",
+        "name": "Perso 3",
+        "command": "ppc d10fd00f",
+        "x": 4,
+        "y": 2,
+        "bg": "#375582",
+        "fg": "#ffffff"
+    },
+    {
+        "id": "button_23",
+        "name": "Perso 4",
+        "command": "ppc d10fd010f",
+        "x": 4,
+        "y": 3,
+        "bg": "#375582",
+        "fg": "#ffffff"
+    },
+    {
+        "id": "button_29",
+        "name": "Perso 5",
+        "command": "ppc d10fd110f",
+        "x": 4,
+        "y": 4,
+        "bg": "#375582",
+        "fg": "#ffffff"
+    },
+    {
+        "id": "button_35",
+        "name": "Perso 6",
+        "command": "ppc d10fd011f",
+        "x": 4,
+        "y": 5,
+        "bg": "#375582",
+        "fg": "#ffffff"
+    },
+    {
+        "id": "button_41",
+        "name": "Perso 7",
+        "command": "ppc d10fd111f",
+        "x": 4,
+        "y": 6,
+        "bg": "#375582",
+        "fg": "#ffffff"
+    },
+    {
+        "id": "button_56",
+        "name": "Unlock DEL",
+        "command": "ppc ppc d000100f",
+        "x": 1,
+        "y": 9,
+        "bg": "#726813",
+        "fg": "#ffffff"
+    }
+]
