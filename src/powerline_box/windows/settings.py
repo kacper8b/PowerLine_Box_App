@@ -16,14 +16,6 @@ id_entry = {
     'baud rate': "PowerLine_baud",
 }
 
-PL_terminal = {
-    'id': "PL",
-    'connected': False
-}
-
-port_new = None
-port_old = None
-
 
 class WindowSettings(tk.Frame):
 
@@ -52,10 +44,10 @@ class WindowSettings(tk.Frame):
             print("Could not read {0}: {1}".format(config.directory_config, error))
             config_data = {}
 
-        global port_old
-        port_old = config_data.get('power line port', 'COM4')
+        self.port_old = config_data.get('power line port', 'COM4')
+        self.port_new = None
 
-        gui.create_entry(self.frame, entry_id=id_entry['COM'], text=port_old,
+        gui.create_entry(self.frame, entry_id=id_entry['COM'], text=self.port_old,
                          height=25, width=100, x=90, y=45)
         gui.create_entry(self.frame, entry_id=id_entry['baud rate'], text="9600", height=25, width=100, x=90, y=75,
                          readonly=True)
@@ -69,23 +61,21 @@ class WindowSettings(tk.Frame):
         """connect
         ----------------------------------------------------------------------------------------------------------------
         """
-        global port_old, port_new
-
         if not power_line.is_connected():
-            port_new = gui.get_entry(id_entry['COM']).get()
-            state = power_line.connect(port=port_new)
+            self.port_new = gui.get_entry(id_entry['COM']).get()
+            state = power_line.connect(port=self.port_new)
             if state:
                 gui.config_button(button_id=id_button['connect'], text="connected",
                                   bg="#0C6046", active_background="#0C6046")
 
                 # change default PORT in case of changes
-                if port_old != port_new:
+                if self.port_old != self.port_new:
                     # read user PORT
                     with open(config.directory_config, 'r', encoding='utf-8') as json_data:
                         config_data = json.load(json_data)
                         json_data.close()
 
-                    config_data['power line port'] = port_new
+                    config_data['power line port'] = self.port_new
 
                     # write user PORT
                     with open(config.directory_config, 'w', encoding='utf-8') as json_data:
