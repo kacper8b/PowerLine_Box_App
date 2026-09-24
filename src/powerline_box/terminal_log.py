@@ -1,6 +1,7 @@
-import gui
 import datetime
-import config
+
+from powerline_box import config
+from powerline_box import gui
 
 # USED interfaces:
 id_text = {
@@ -52,6 +53,3 @@ def clear():
     --------------------------------------------------------------------------------------------------------------------
     """
     gui.remove_text(text_id=id_text['terminal'])
-
-
-

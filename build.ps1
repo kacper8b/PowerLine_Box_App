@@ -3,8 +3,8 @@
     Automatyzuje budowe pliku wykonywalnego PowerLine_Box_App (PyInstaller).
 .DESCRIPTION
     Tworzy/aktywuje wirtualne srodowisko, instaluje zaleznosci, czysci stare
-    artefakty budowy, uruchamia PyInstaller wg powerline-box.spec i kopiuje
-    pliki konfiguracyjne oraz ikone do katalogu dist.
+    artefakty budowy, uruchamia PyInstaller wg packaging/powerline-box.spec i
+    kopiuje pliki konfiguracyjne oraz ikone do katalogu dist.
 .PARAMETER SkipVenv
     Pomija tworzenie/aktywacje wirtualnego srodowiska (uzywa aktualnie
     aktywnego interpretera Pythona).
@@ -34,11 +34,14 @@ Remove-Item -Recurse -Force build -ErrorAction SilentlyContinue
 Remove-Item -Recurse -Force dist -ErrorAction SilentlyContinue
 
 Write-Host "Budowanie aplikacji (PyInstaller)..." -ForegroundColor Cyan
-pyinstaller powerline-box.spec
+pyinstaller packaging\powerline-box.spec
+if ($LASTEXITCODE -ne 0) {
+    throw "PyInstaller zakonczyl sie bledem (exit code $LASTEXITCODE). Sprawdz, czy dist\powerline-box.exe nie jest uzywany przez uruchomiona aplikacje."
+}
 
 Write-Host "Kopiowanie plikow konfiguracyjnych i ikony do dist..." -ForegroundColor Cyan
-Copy-Item "powerline-box.ico" "dist\powerline-box.ico" -Force
-Copy-Item "config.json" "dist\config.json" -Force
-Copy-Item "panel_buttons.json" "dist\panel_buttons.json" -Force
+Copy-Item "packaging\powerline-box.ico" "dist\powerline-box.ico" -Force
+Copy-Item "config\config.json" "dist\config.json" -Force
+Copy-Item "config\panel_buttons.json" "dist\panel_buttons.json" -Force
 
 Write-Host "Build zakonczony. Plik wykonywalny: dist\powerline-box.exe" -ForegroundColor Green

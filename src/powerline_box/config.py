@@ -1,7 +1,6 @@
 
 import os
-import json
-import gui_terminal.terminal_main as terminal_main
+import sys
 from shutil import copyfile
 
 windows = dict(
@@ -101,6 +100,18 @@ directory_user = os.path.expanduser('~\\Documents\\PowerLine Box')
 directory_config = directory_user + '\\config.json'
 directory_panel = directory_user + '\\panel_buttons.json'
 
+# Location of the default config templates and app icon.
+# Frozen (PyInstaller) build: files are copied flat next to the .exe.
+# Source run: files live in the repo's config/ and packaging/ folders.
+if getattr(sys, "frozen", False):
+    _APP_DIR = os.path.dirname(sys.executable)
+    _CONFIG_TEMPLATES_DIR = _APP_DIR
+    ICON_PATH = os.path.join(_APP_DIR, "powerline-box.ico")
+else:
+    _REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+    _CONFIG_TEMPLATES_DIR = os.path.join(_REPO_ROOT, "config")
+    ICON_PATH = os.path.join(_REPO_ROOT, "packaging", "powerline-box.ico")
+
 
 def configuration_init():
     """get_button_text
@@ -117,12 +128,13 @@ def configuration_init():
             print("Successfully created the directory {0}".format(directory_user))
 
     # copy config files
-    file_config = ['\\config.json', '\\panel_buttons.json']
+    file_config = ['config.json', 'panel_buttons.json']
     for file in file_config:
-        if not os.path.isfile(directory_user + file):
+        destination = os.path.join(directory_user, file)
+        if not os.path.isfile(destination):
             try:
-                copyfile(os.getcwd() + file, directory_user + file)
+                copyfile(os.path.join(_CONFIG_TEMPLATES_DIR, file), destination)
             except OSError:
-                print("Copy of the file {0} failed".format(os.getcwd() + file))
+                print("Copy of the file {0} failed".format(os.path.join(_CONFIG_TEMPLATES_DIR, file)))
             else:
-                print("Successfully copy of the file {0}".format(os.getcwd() + file))
+                print("Successfully copy of the file {0}".format(os.path.join(_CONFIG_TEMPLATES_DIR, file)))

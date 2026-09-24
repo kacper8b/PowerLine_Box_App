@@ -1,7 +1,8 @@
 import tkinter as tk
-import config
-import gui
-import gui_terminal.terminal_main as terminal
+
+from powerline_box import config
+from powerline_box import gui
+from powerline_box import terminal_log as terminal
 
 # USED interfaces:
 id_button = {

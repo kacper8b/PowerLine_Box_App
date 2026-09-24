@@ -1,10 +1,9 @@
-import tkinter as tk
 import json
+import tkinter as tk
 
-import config
-import gui
-import uart.terminal as terminal
-import uart.power_line as power_line
+from powerline_box import config
+from powerline_box import gui
+from powerline_box.uart import power_line
 
 
 # USED interfaces:

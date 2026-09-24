@@ -1,6 +1,5 @@
-
-from uart.uart import *
-import gui_terminal.terminal_main as terminal_main
+from powerline_box import terminal_log as terminal_main
+from powerline_box.uart.serial_port import Uart
 
 Uart1 = Uart()
 Uart2 = Uart()

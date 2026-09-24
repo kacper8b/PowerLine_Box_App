@@ -1,12 +1,12 @@
 
-import panel.panel_main as panel_main
-import panel.panel_edit as panel_edit
-import panel.panel_buttons as panel_buttons
-import gui_terminal.terminal_main as terminal_main
-import uart.power_line as power_line
-import gui
-
 from threading import Timer
+
+from powerline_box import gui
+from powerline_box import terminal_log as terminal_main
+from powerline_box.panel import buttons as panel_buttons
+from powerline_box.panel import edit as panel_edit
+from powerline_box.panel import main_panel as panel_main
+from powerline_box.uart import power_line
 
 
 panel_state = {
@@ -339,6 +339,3 @@ def delete():
     panel_edit.send_data(name="", command="", bg="", fg="")  # clear data
     panel_buttons.select_button_effect_deactivate(previous_button['id'])
     previous_button['id'] = None
-
-
-

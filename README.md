@@ -7,7 +7,7 @@ Aplikacja desktopowa (Windows, Python + Tkinter) do sterowania i diagnostyki urz
 - Nawigacja: Home, Control Panel, Settings, About
 - Konfigurowalny panel przycisków (siatka 6x10) z edycją etykiet i komend w runtime
 - Stałe przyciski operacyjne: SEND, INIT, ON, OFF, DPC
-- Połączenie z urządzeniem przez port szeregowy (domyślnie COM4, konfigurowalny w `config.json`)
+- Połączenie z urządzeniem przez port szeregowy (domyślnie COM4, konfigurowalny w `config/config.json`)
 - Terminal diagnostyczny z podglądem komunikacji na żywo (timestamp, kierunek `-->`/`<--`)
 - Automatyczne tworzenie plików konfiguracyjnych w `Documents\PowerLine Box` przy pierwszym uruchomieniu
 
@@ -22,7 +22,7 @@ Aplikacja desktopowa (Windows, Python + Tkinter) do sterowania i diagnostyki urz
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 pip install pyserial
-python powerline-box.py
+python main.py
 ```
 
 ## Budowanie pliku .exe
@@ -43,14 +43,36 @@ Gotowy plik `powerline-box.exe` wraz z plikami konfiguracyjnymi pojawi się w ka
 
 ## Struktura projektu
 
-- `powerline-box.py` — punkt wejścia GUI (`WindowManager`)
-- `config.py`, `config.json`, `panel_buttons.json` — konfiguracja layoutu i domyślne ustawienia użytkownika
-- `gui.py` — generyczne helpery Tkinter (przyciski, etykiety, pola tekstowe)
-- `windows/` — ekrany aplikacji (sidebar, home, panel, settings, about, terminal)
-- `panel/` — logika panelu sterowania (przyciski stałe, konfigurowalne, edycja)
-- `uart/` — warstwa komunikacji szeregowej (`uart.py`, `terminal.py`, `power_line.py`)
-- `gui_terminal/` — logowanie komunikacji do okna terminala
-- `powerline-box.spec`, `powerline-box.ico`, `build.ps1` — zasoby i automatyzacja budowy PyInstaller
+```
+PowerLine_Box_App/
+├── main.py                     # punkt wejścia (dev run + PyInstaller)
+├── build.ps1                   # automatyzacja budowy .exe
+├── config/                     # domyślne szablony konfiguracji
+│   ├── config.json
+│   └── panel_buttons.json
+├── packaging/                  # zasoby i specyfikacja PyInstaller
+│   ├── powerline-box.spec
+│   ├── powerline-box.ico
+│   └── how to build exe.txt
+└── src/powerline_box/           # kod źródłowy aplikacji (pakiet Python)
+    ├── app.py                  # `WindowManager`, pętla główna
+    ├── config.py               # layout, ścieżki, inicjalizacja configu użytkownika
+    ├── gui.py                  # generyczne helpery Tkinter
+    ├── terminal_log.py         # logowanie komunikacji do okna terminala
+    ├── panel/                  # logika panelu sterowania
+    │   ├── controller.py       # orkiestracja komend/sekwencji (INIT, DPC)
+    │   ├── buttons.py          # konfigurowalna siatka przycisków
+    │   ├── edit.py             # panel edycji przycisku
+    │   └── main_panel.py       # stałe przyciski operacyjne
+    ├── uart/                   # warstwa komunikacji szeregowej
+    │   ├── serial_port.py      # wrapper na pyserial
+    │   ├── manager.py          # menedżer wielu portów
+    │   └── power_line.py       # protokół domenowy PowerLine Box
+    └── windows/                # ekrany aplikacji
+        ├── sidebar.py, home.py, settings.py, about.py
+        ├── panel_view.py
+        └── terminal_view.py
+```
 
 ## Konfiguracja
 

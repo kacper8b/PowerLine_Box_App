@@ -1,7 +1,8 @@
-import config
-import gui
 import tkinter as tk
-import panel.panel as panel
+
+from powerline_box import config
+from powerline_box import gui
+from powerline_box.panel import controller as panel
 
 # USED interfaces:
 id_button = {

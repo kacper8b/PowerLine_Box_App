@@ -1,6 +1,6 @@
 
-import uart.terminal as terminal
-import gui_terminal.terminal_main as terminal_main
+from powerline_box import terminal_log as terminal_main
+from powerline_box.uart import manager as terminal
 
 
 power_line_terminal = {

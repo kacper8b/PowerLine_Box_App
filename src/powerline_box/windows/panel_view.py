@@ -1,8 +1,8 @@
 import tkinter as tk
-import config
-import panel.panel_buttons as panel_buttons
-import panel.panel_main as panel_main
-import panel.panel_edit as panel_edit
+from powerline_box import config
+from powerline_box.panel import buttons as panel_buttons
+from powerline_box.panel import main_panel
+from powerline_box.panel import edit as panel_edit
 
 
 class WindowPanel(tk.Frame):
@@ -44,7 +44,7 @@ class WindowPanel(tk.Frame):
                           padx=5, pady=5, relief=tk.RIDGE, borderwidth=0)
         frame_main.place(x=config.panel_main['frame_x'], y=config.panel_main['frame_y'])
 
-        panel_main.create(frame_main)
+        main_panel.create(frame_main)
 
         '''create edit panel
         -------------------------------------------------------------------------------------------------------------'''

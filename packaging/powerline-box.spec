@@ -1,10 +1,10 @@
 # -*- mode: python ; coding: utf-8 -*-
-
+import os
 
 block_cipher = None
 
-a = Analysis(['powerline-box.py'],
-             pathex=[],
+a = Analysis([os.path.join(SPECPATH, '..', 'main.py')],
+             pathex=[os.path.join(SPECPATH, '..', 'src')],
              binaries=[],
              datas=[],
              hiddenimports=[],
@@ -36,4 +36,4 @@ exe = EXE(pyz,
           disable_windowed_traceback=False,
           target_arch=None,
           codesign_identity=None,
-          entitlements_file=None , icon='powerline-box.ico')
+          entitlements_file=None , icon=os.path.join(SPECPATH, 'powerline-box.ico'))

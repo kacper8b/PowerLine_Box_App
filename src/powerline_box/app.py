@@ -1,17 +1,15 @@
 
+import os
+import sys
 import tkinter as tk
 
-import config
-from windows.sidebar import *
-from windows.panel import *
-from windows.terminal import *
-from windows.home import *
-from windows.settings import *
-from windows.about import *
-import gui_terminal.terminal_main as terminal
-
-import sys
-import os
+from powerline_box import config
+from powerline_box.windows.about import WindowAbout
+from powerline_box.windows.home import WindowHome
+from powerline_box.windows.panel_view import WindowPanel
+from powerline_box.windows.settings import WindowSettings
+from powerline_box.windows.sidebar import WindowSidebar
+from powerline_box.windows.terminal_view import WindowTerminal
 
 
 class WindowManager(tk.Tk):
@@ -78,7 +76,7 @@ class WindowManager(tk.Tk):
         frame.tkraise()
 
 
-def on_closing():
+def _on_closing(app):
     """on_closing frame
       ------------------------------------------------------------------------------------------------------------------
       """
@@ -87,10 +85,14 @@ def on_closing():
     sys.exit
 
 
-config.configuration_init()
-app = WindowManager()
-app.title("PowerLine Box")
-app.iconbitmap("powerline-box.ico")
-app.protocol("WM_DELETE_WINDOW", on_closing)
-app.mainloop()
-
+def run():
+    """run
+    Builds and starts the PowerLine Box application window.
+    ----------------------------------------------------------------------------------------------------------------
+    """
+    config.configuration_init()
+    app = WindowManager()
+    app.title("PowerLine Box")
+    app.iconbitmap(config.ICON_PATH)
+    app.protocol("WM_DELETE_WINDOW", lambda: _on_closing(app))
+    app.mainloop()
