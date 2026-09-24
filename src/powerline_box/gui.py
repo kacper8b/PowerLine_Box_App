@@ -196,33 +196,6 @@ def create_label(frame, label_id=None, text="", x=None, y=None):
     Labels.append(new_label)
 
 
-def config_label(label_id, x, y, text=""):
-    """config label
-    --------------------------------------------------------------------------------------------------------------------
-    """
-
-    # find the label
-    label = None
-    for l in Labels:
-        if l["label_id"] == label_id:
-            label = l["label"]
-            break
-
-    # return error in case when label will not be find
-    if label is None:
-        return "label not found"
-
-    if text is not None:
-        label.config(text=text)
-    if x is not None:
-        label.place(x=x)
-    if y is not None:
-        label.place(y=y)
-
-    # in case of success return 1
-    return 1
-
-
 def create_text(frame, height, width, x, y, text_id=None, readonly=True, background=None):
     """create text
     --------------------------------------------------------------------------------------------------------------------
@@ -248,14 +221,6 @@ def create_text(frame, height, width, x, y, text_id=None, readonly=True, backgro
         text.config(state=tk.NORMAL)
 
     Texts[text_id] = {"text": text, "readonly": readonly}
-
-
-def get_text(text_id):
-    """get text
-    --------------------------------------------------------------------------------------------------------------------
-    """
-    record = Texts.get(text_id)
-    return record["text"] if record is not None else None
 
 
 def add_text(text_id, new_text):

@@ -46,7 +46,7 @@ class WindowSettings(tk.Frame):
 
         # read user PORT
         try:
-            with open(config.directory_config) as json_data:
+            with open(config.directory_config, encoding='utf-8') as json_data:
                 config_data = json.load(json_data)
         except (OSError, ValueError, KeyError) as error:
             print("Could not read {0}: {1}".format(config.directory_config, error))
@@ -81,14 +81,14 @@ class WindowSettings(tk.Frame):
                 # change default PORT in case of changes
                 if port_old != port_new:
                     # read user PORT
-                    with open(config.directory_config, 'r') as json_data:
+                    with open(config.directory_config, 'r', encoding='utf-8') as json_data:
                         config_data = json.load(json_data)
                         json_data.close()
 
                     config_data['power line port'] = port_new
 
                     # write user PORT
-                    with open(config.directory_config, 'w') as json_data:
+                    with open(config.directory_config, 'w', encoding='utf-8') as json_data:
                         json.dump(config_data, json_data, ensure_ascii=False, indent=4)
                         json_data.close()
 

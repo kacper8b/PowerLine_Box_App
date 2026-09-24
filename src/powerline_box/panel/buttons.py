@@ -80,7 +80,7 @@ def config_buttons():
     button_id = None
 
     # read config file
-    with open(config.directory_panel) as json_data:
+    with open(config.directory_panel, encoding='utf-8') as json_data:
         buttons_json = json.load(json_data)
         json_data.close()
 
@@ -118,7 +118,7 @@ def config_buttons():
                         break
 
     # write config file
-    with open(config.directory_panel, 'w') as json_data:
+    with open(config.directory_panel, 'w', encoding='utf-8') as json_data:
         json.dump(buttons_json, json_data, ensure_ascii=False, indent=4)
         json_data.close()
 
@@ -130,7 +130,7 @@ def edit_button(button_id, new_command, new_text, new_bg, new_fg):
     new_button = True
 
     # read config file
-    with open(config.directory_panel, 'r') as json_data:
+    with open(config.directory_panel, 'r', encoding='utf-8') as json_data:
         buttons_json = json.load(json_data)
         json_data.close()
 
@@ -167,7 +167,7 @@ def edit_button(button_id, new_command, new_text, new_bg, new_fg):
                     buttons_json.append(button)
 
     # write config file
-    with open(config.directory_panel, 'w') as json_data:
+    with open(config.directory_panel, 'w', encoding='utf-8') as json_data:
         json.dump(buttons_json, json_data, ensure_ascii=False, indent=4)
         json_data.close()
 
@@ -180,7 +180,7 @@ def delete_button(button_id):
     ----------------------------------------------------------------------------------------------------------------
     """
     # read config file
-    with open(config.directory_panel, 'r') as json_data:
+    with open(config.directory_panel, 'r', encoding='utf-8') as json_data:
         buttons_json = json.load(json_data)
         json_data.close()
 
@@ -192,7 +192,7 @@ def delete_button(button_id):
         idx = idx + 1
 
     # write config file
-    with open(config.directory_panel, 'w') as json_data:
+    with open(config.directory_panel, 'w', encoding='utf-8') as json_data:
         json.dump(buttons_json, json_data, ensure_ascii=False, indent=4)
         json_data.close()
 
@@ -207,7 +207,7 @@ def copy_buttons():
     global buttons_copy
 
     # read config file
-    with open(config.directory_panel, 'r') as json_data:
+    with open(config.directory_panel, 'r', encoding='utf-8') as json_data:
         buttons_copy = json.load(json_data)
         json_data.close()
 
@@ -218,7 +218,7 @@ def restore_buttons():
     """
     if buttons_copy is not None:
         # write config file
-        with open(config.directory_panel, 'w') as json_data:
+        with open(config.directory_panel, 'w', encoding='utf-8') as json_data:
             json.dump(buttons_copy, json_data, ensure_ascii=False, indent=4)
             json_data.close()
 

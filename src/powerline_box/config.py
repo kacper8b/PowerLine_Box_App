@@ -122,8 +122,8 @@ def configuration_init():
     if not os.path.isdir(directory_user):
         try:
             os.mkdir(directory_user)
-        except OSError:
-            print("Creation of the directory {0} failed".format(directory_user))
+        except OSError as error:
+            print("Creation of the directory {0} failed: {1}".format(directory_user, error))
         else:
             print("Successfully created the directory {0}".format(directory_user))
 
@@ -134,7 +134,7 @@ def configuration_init():
         if not os.path.isfile(destination):
             try:
                 copyfile(os.path.join(_CONFIG_TEMPLATES_DIR, file), destination)
-            except OSError:
-                print("Copy of the file {0} failed".format(os.path.join(_CONFIG_TEMPLATES_DIR, file)))
+            except OSError as error:
+                print("Copy of the file {0} failed: {1}".format(os.path.join(_CONFIG_TEMPLATES_DIR, file), error))
             else:
                 print("Successfully copy of the file {0}".format(os.path.join(_CONFIG_TEMPLATES_DIR, file)))
