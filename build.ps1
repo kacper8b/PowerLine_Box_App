@@ -27,7 +27,7 @@ if (-not $SkipVenv) {
 
 Write-Host "Instalacja/aktualizacja zaleznosci..." -ForegroundColor Cyan
 python -m pip install --upgrade pip
-pip install pyserial pyinstaller
+pip install -r requirements.txt -r requirements-dev.txt
 
 Write-Host "Czyszczenie poprzednich artefaktow build/dist..." -ForegroundColor Cyan
 Remove-Item -Recurse -Force build -ErrorAction SilentlyContinue

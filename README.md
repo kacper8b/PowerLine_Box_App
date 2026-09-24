@@ -14,14 +14,15 @@ Aplikacja desktopowa (Windows, Python + Tkinter) do sterowania i diagnostyki urz
 ## Wymagania
 
 - Python 3
-- Zależności: `pyserial` (`tkinter` i `json` są częścią standardowej biblioteki)
+- Zależności wykonawcze: `requirements.txt` (`pyserial`; `tkinter` i `json` są częścią standardowej biblioteki)
+- Zależności deweloperskie (budowa `.exe`, testy): `requirements-dev.txt` (`pyinstaller`, `pytest`)
 
 ## Uruchomienie ze źródeł
 
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
-pip install pyserial
+pip install -r requirements.txt
 python main.py
 ```
 
