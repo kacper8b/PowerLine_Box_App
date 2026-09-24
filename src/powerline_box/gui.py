@@ -76,13 +76,13 @@ def config_button(button_id, text=None, height=None, width=None, x=None, y=None,
     """
 
     # find the button
-    entry = Buttons.get(button_id)
+    record = Buttons.get(button_id)
 
     # return error in case when button will not be find
-    if entry is None:
+    if record is None:
         return "button not found"
-    button = entry["button"]
-    frame = entry["frame"]
+    button = record["button"]
+    frame = record["frame"]
 
     # configuration
     if text is not None:
@@ -121,13 +121,13 @@ def get_button_data(button_id, text=None, bg=None, fg=None, x=None, y=None):
     """
 
     # find the button
-    entry = Buttons.get(button_id)
+    record = Buttons.get(button_id)
 
-    if entry is None:
+    if record is None:
         # return error in case when button will not be find
         return "button not found"
     else:
-        button = entry["button"]
+        button = record["button"]
         if text is not None:
             return button['text']
         if bg is not None:
@@ -147,13 +147,13 @@ def hide_button(button_id):
     """
 
     # find the button
-    entry = Buttons.get(button_id)
+    record = Buttons.get(button_id)
 
     # return error in case when button will not be find
-    if entry is None:
+    if record is None:
         return "button not found"
 
-    entry["button"].pack_forget()
+    record["button"].pack_forget()
 
     # in case of success return 1
     return 1
@@ -166,13 +166,13 @@ def show_button(button_id):
     """
 
     # find the button
-    entry = Buttons.get(button_id)
+    record = Buttons.get(button_id)
 
     # return error in case when button will not be find
-    if entry is None:
+    if record is None:
         return "button not found"
 
-    entry["button"].pack(fill=tk.BOTH, expand=1)
+    record["button"].pack(fill=tk.BOTH, expand=1)
 
     # in case of success return 1
     return 1
@@ -254,20 +254,20 @@ def get_text(text_id):
     """get text
     --------------------------------------------------------------------------------------------------------------------
     """
-    entry = Texts.get(text_id)
-    return entry["text"] if entry is not None else None
+    record = Texts.get(text_id)
+    return record["text"] if record is not None else None
 
 
 def add_text(text_id, new_text):
     """add text
     --------------------------------------------------------------------------------------------------------------------
     """
-    entry = Texts.get(text_id)
-    if entry is None:
+    record = Texts.get(text_id)
+    if record is None:
         return
 
-    text = entry["text"]
-    if entry["readonly"] is True:
+    text = record["text"]
+    if record["readonly"] is True:
         text.config(state=tk.NORMAL)
         text.insert(tk.END, "{0}\n".format(new_text))
         text.config(state=tk.DISABLED)
@@ -281,12 +281,12 @@ def remove_text(text_id):
     """remove_text
     --------------------------------------------------------------------------------------------------------------------
     """
-    entry = Texts.get(text_id)
-    if entry is None:
+    record = Texts.get(text_id)
+    if record is None:
         return
 
-    text = entry["text"]
-    if entry["readonly"] is True:
+    text = record["text"]
+    if record["readonly"] is True:
         text.config(state=tk.NORMAL)
         text.delete("1.0", tk.END)
         text.config(state=tk.DISABLED)
@@ -329,13 +329,13 @@ def config_entry(entry_id, x=None, y=None, text=None, height=None, width=None, r
     --------------------------------------------------------------------------------------------------------------------
     """
     # find the entry
-    item = Entries.get(entry_id)
+    record = Entries.get(entry_id)
 
     # return error in case when button will not be find
-    if item is None:
+    if record is None:
         return "entry not found"
-    entry = item["entry"]
-    frame = item["frame"]
+    entry = record["entry"]
+    frame = record["frame"]
 
     if x is not None:
         frame.place(x=x)
@@ -362,8 +362,8 @@ def get_entry(entry_id):
     """get entry
     --------------------------------------------------------------------------------------------------------------------
     """
-    entry = Entries.get(entry_id)
-    return entry["entry"] if entry is not None else None
+    record = Entries.get(entry_id)
+    return record["entry"] if record is not None else None
 
 
 def check_color(color_code):
