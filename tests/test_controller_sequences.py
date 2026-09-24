@@ -38,17 +38,17 @@ def run_next_timer():
 
 @pytest.fixture(autouse=True)
 def reset_controller_state(monkeypatch):
-    """Reset module-level state and stub out GUI/UART side effects for every test."""
+    """Reset controller runtime state and stub out GUI/UART side effects for every test."""
     RecordingTimer.pending.clear()
     monkeypatch.setattr(controller, "Timer", RecordingTimer)
 
-    controller.state = controller.panel_state['normal']
-    controller.event = None
-    controller.event_timer = None
-    controller.current_button = {'id': None, 'bg': '#000000', 'fg': '#000000'}
-    controller.previous_button = {'id': None, 'bg': '#000000', 'fg': '#000000'}
-    controller.double_command = None
-    controller.double_command_comment = None
+    controller._controller.state = controller.panel_state['normal']
+    controller._controller.event = None
+    controller._controller.event_timer = None
+    controller._controller.current_button = {'id': None, 'bg': '#000000', 'fg': '#000000'}
+    controller._controller.previous_button = {'id': None, 'bg': '#000000', 'fg': '#000000'}
+    controller._controller.double_command = None
+    controller._controller.double_command_comment = None
 
     monkeypatch.setattr(controller.power_line, "is_connected", lambda: True)
     monkeypatch.setattr(controller.power_line, "send", lambda data: data)
