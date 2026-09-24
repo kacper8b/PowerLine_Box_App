@@ -227,9 +227,12 @@ def panel_button_pressed(button_id, command=None):
         _controller.previous_button['id'] = button_id
 
 
-def command_send(msg, comment=None, new_event=events_list['command_send'], delay=0.5):
+def command_send(msg, comment=None, new_event=None, delay=0.5):
     """command_send
     -----------------------------------------------------------------------------------------------------------------"""
+    if new_event is None:
+        new_event = events_list['command_send']
+
     if _controller.state == panel_state['normal']:
         if not power_line.is_connected():
             terminal_main.add_text("not connected")
