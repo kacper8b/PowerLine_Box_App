@@ -6,6 +6,8 @@ Buttons = {}  # Buttons   -      button_id -> {"frame", "button"}
 Labels = []   # Labels    -      {"label_id", "text", "label"} (ids intentionally reused, kept as a list)
 Texts = {}    # Texts     -      text_id -> {"text", "readonly"}
 Entries = {}  # Entries   -      entry_id -> {"frame", "entry"}
+Listboxes = {}   # Listboxes -   listbox_id -> {"frame", "listbox"}
+Dropdowns = {}   # Dropdowns -   dropdown_id -> {"frame", "variable", "menu"}
 
 _root = None  # Tk root window, registered via set_root() once created
 
@@ -329,6 +331,108 @@ def get_entry(entry_id):
     """
     record = Entries.get(entry_id)
     return record["entry"] if record is not None else None
+
+
+def create_listbox(frame, listbox_id, x, y, width, height, multiple=False):
+    """create listbox
+    A plain tk.Listbox with a vertical scrollbar; multiple=True allows multi-selection
+    (used by the automation editor to group steps into a loop).
+    --------------------------------------------------------------------------------------------------------------------
+    """
+    frame_listbox = tk.Frame(frame, height=height, width=width)
+    frame_listbox.pack_propagate(0)
+    frame_listbox.place(x=x, y=y)
+
+    scrollbar = tk.Scrollbar(frame_listbox)
+    scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+
+    listbox = tk.Listbox(frame_listbox, font=("Consolas", 10),
+                        selectmode=tk.EXTENDED if multiple else tk.BROWSE,
+                        yscrollcommand=scrollbar.set)
+    listbox.pack(fill=tk.BOTH, expand=1)
+    scrollbar.config(command=listbox.yview)
+
+    Listboxes[listbox_id] = {"frame": frame_listbox, "listbox": listbox}
+
+
+def set_listbox_items(listbox_id, items):
+    """set listbox items
+    Replaces the listbox's contents with `items` (a list of display strings).
+    --------------------------------------------------------------------------------------------------------------------
+    """
+    record = Listboxes.get(listbox_id)
+    if record is None:
+        return
+    listbox = record["listbox"]
+    listbox.delete(0, tk.END)
+    for item in items:
+        listbox.insert(tk.END, item)
+
+
+def get_listbox_selection(listbox_id):
+    """get listbox selection
+    Returns the list of selected indices (empty list if none/not found).
+    --------------------------------------------------------------------------------------------------------------------
+    """
+    record = Listboxes.get(listbox_id)
+    if record is None:
+        return []
+    return list(record["listbox"].curselection())
+
+
+def bind_listbox_select(listbox_id, action):
+    """bind listbox select
+    --------------------------------------------------------------------------------------------------------------------
+    """
+    record = Listboxes.get(listbox_id)
+    if record is None:
+        return
+    record["listbox"].bind("<<ListboxSelect>>", lambda event: action())
+
+
+def create_dropdown(frame, dropdown_id, values, x, y, width, height=25, default=None):
+    """create dropdown
+    A plain tk.OptionMenu backed by a StringVar (used to pick an existing panel
+    button as the source of a Command step). The frame uses pack_propagate(0) so
+    `width`/`height` are pixels, same as create_entry/create_listbox - OptionMenu's
+    own `width` option is in character units, so it's intentionally left unset here.
+    --------------------------------------------------------------------------------------------------------------------
+    """
+    variable = tk.StringVar(frame)
+    variable.set(default if default is not None else (values[0] if values else ""))
+
+    frame_dropdown = tk.Frame(frame, height=height, width=width)
+    frame_dropdown.pack_propagate(0)
+    frame_dropdown.place(x=x, y=y)
+
+    menu = tk.OptionMenu(frame_dropdown, variable, *values) if values else tk.OptionMenu(frame_dropdown, variable, "")
+    menu.pack(fill=tk.BOTH, expand=1)
+
+    Dropdowns[dropdown_id] = {"frame": frame_dropdown, "variable": variable, "menu": menu}
+
+
+def set_dropdown_values(dropdown_id, values, default=None):
+    """set dropdown values
+    Replaces the dropdown's choices (used when the panel buttons list changes).
+    --------------------------------------------------------------------------------------------------------------------
+    """
+    record = Dropdowns.get(dropdown_id)
+    if record is None:
+        return
+    variable = record["variable"]
+    menu = record["menu"]["menu"]
+    menu.delete(0, tk.END)
+    for value in values:
+        menu.add_command(label=value, command=lambda v=value: variable.set(v))
+    variable.set(default if default is not None else (values[0] if values else ""))
+
+
+def get_dropdown_value(dropdown_id):
+    """get dropdown value
+    --------------------------------------------------------------------------------------------------------------------
+    """
+    record = Dropdowns.get(dropdown_id)
+    return record["variable"].get() if record is not None else None
 
 
 def check_color(color_code):

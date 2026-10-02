@@ -8,6 +8,7 @@ from powerline_box import theme
 id_button = {
     'home': "sidebar_home",
     'panel': "sidebar_panel",
+    'automation': "sidebar_automation",
     'setting': "sidebar_setting",
     'about': "sidebar_about"
 }
@@ -36,11 +37,15 @@ class WindowSidebar(tk.Frame):
                           relx=0.5, y=70, action=lambda: controller.show_frame("WindowPanel"),
                           bg=theme.BLUE, fg=theme.WHITE,
                           active_background=theme.BLUE, active_foreground=theme.WHITE)
+        gui.create_button(self.frame, button_id=id_button['automation'], height=35, width=100, text="Automation",
+                          relx=0.5, y=110, action=lambda: controller.show_frame("WindowAutomation"),
+                          bg=theme.BLUE, fg=theme.WHITE,
+                          active_background=theme.BLUE, active_foreground=theme.WHITE)
         gui.create_button(self.frame, button_id=id_button['setting'], height=35, width=100, text="Settings",
-                          relx=0.5, y=110, action=lambda: controller.show_frame("WindowSettings"),
+                          relx=0.5, y=150, action=lambda: controller.show_frame("WindowSettings"),
                           bg=theme.BLUE, fg=theme.WHITE,
                           active_background=theme.BLUE, active_foreground=theme.WHITE)
         gui.create_button(self.frame, button_id=id_button['about'], height=35, width=100, text="About",
-                          relx=0.5, y=150, action=lambda: controller.show_frame("WindowAbout"),
+                          relx=0.5, y=190, action=lambda: controller.show_frame("WindowAbout"),
                           bg=theme.BLUE, fg=theme.WHITE,
                           active_background=theme.BLUE, active_foreground=theme.WHITE)

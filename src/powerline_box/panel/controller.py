@@ -17,6 +17,7 @@ logger = logging.getLogger(__name__)
 panel_state = {
     'normal': 0,
     'edit': 1,
+    'automation': 2,
 }
 
 events_list = {
@@ -129,6 +130,30 @@ def stop_event():
     _controller.event = None
     if _controller.event_timer is not None:
         _controller.event_timer.cancel()
+
+
+def try_start_automation():
+    """try_start_automation
+    Switches to the 'automation' state for the automation runner, as long as no panel
+    action / INIT / DPC sequence is already in progress. Returns True if it started.
+    -----------------------------------------------------------------------------------------------------------------"""
+    if _controller.state == panel_state['normal'] and _controller.event is None:
+        _controller.state = panel_state['automation']
+        return True
+    return False
+
+
+def stop_automation():
+    """stop_automation
+    -----------------------------------------------------------------------------------------------------------------"""
+    if _controller.state == panel_state['automation']:
+        _controller.state = panel_state['normal']
+
+
+def is_automation_running():
+    """is_automation_running
+    -----------------------------------------------------------------------------------------------------------------"""
+    return _controller.state == panel_state['automation']
 
 
 def edit():
