@@ -215,7 +215,7 @@ def _read_script_repeat():
     try:
         return int(gui.get_entry(id_entry['script_repeat']).get())
     except (TypeError, ValueError):
-        return model.SCRIPT_REPEAT_FOREVER
+        return None
 
 
 def add_command_step():
