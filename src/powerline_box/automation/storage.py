@@ -51,8 +51,8 @@ def load_script(name):
         return None
 
     for script in scripts:
-        if script.get('name') == name:
-            return script
+        if isinstance(script, dict) and script.get('name') == name:
+            return script if model.validate_script(script) else None
     return None
 
 
