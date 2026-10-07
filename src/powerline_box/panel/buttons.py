@@ -240,7 +240,7 @@ def list_buttons():
         return []
 
     return [{"name": button["name"], "command": button["command"]}
-            for button in buttons_json if button.get("name")]
+            for button in buttons_json if button.get("name") and button.get("command")]
 
 
 def select_button_effect_activate(button_id):
