@@ -66,7 +66,13 @@ def run(script, on_step=None, on_finished=None):
     if not panel.try_start_automation():
         return False
 
-    _state.flat_steps = model.flatten_steps(script['steps'])
+    _state.flat_steps = []
+    for step in model.flatten_steps(script['steps']):
+        if step['type'] == model.STEP_COMMAND:
+            _, commands = panel.classify_ppc_command(step['command'].lower())
+            _state.flat_steps.extend(dict(step, command=command) for command in commands)
+        else:
+            _state.flat_steps.append(step)
     _state.index = 0
     _state.remaining_repeats = repeat  # 0 means "until stopped"
     _state.on_step = on_step
