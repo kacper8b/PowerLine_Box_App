@@ -1,9 +1,12 @@
 import json
+import logging
 
 from powerline_box import config
 from powerline_box import gui
 from powerline_box import theme
 from powerline_box.panel import controller as panel
+
+logger = logging.getLogger(__name__)
 
 # USED interfaces:
 id_button = {
@@ -222,6 +225,22 @@ def restore_buttons():
 
         # refresh buttons
         config_buttons()
+
+
+def list_buttons():
+    """list_buttons
+    Returns the saved panel buttons as a list of {"name", "command"} dicts (for pickers
+    like the automation editor), skipping unnamed/empty buttons. Empty list on read error.
+    ----------------------------------------------------------------------------------------------------------------
+    """
+    try:
+        buttons_json = _read_panel_json()
+    except (OSError, ValueError) as error:
+        logger.error("Could not read panel buttons from %s: %s", config.directory_panel, error)
+        return []
+
+    return [{"name": button["name"], "command": button["command"]}
+            for button in buttons_json if button.get("name") and button.get("command")]
 
 
 def select_button_effect_activate(button_id):

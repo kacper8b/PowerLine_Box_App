@@ -7,6 +7,7 @@ import tkinter as tk
 from powerline_box import config
 from powerline_box import gui
 from powerline_box.windows.about import WindowAbout
+from powerline_box.windows.automation import WindowAutomation
 from powerline_box.windows.home import WindowHome
 from powerline_box.windows.panel_view import WindowPanel
 from powerline_box.windows.settings import WindowSettings
@@ -56,7 +57,7 @@ class WindowManager(tk.Tk):
         # will be raised above the others
         self.frames = {}
 
-        for F in (WindowHome, WindowSettings, WindowPanel, WindowAbout):
+        for F in (WindowHome, WindowSettings, WindowPanel, WindowAutomation, WindowAbout):
             page_name = F.__name__
             frame = F(parent=frame_main, controller=self)
             frame.grid_propagate(False)
